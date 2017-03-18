@@ -14,7 +14,13 @@
 		<ul>
 			<li><a href="http://knightsofhell.free.fr">Accueil</a></li>
 			<li><a href="http://knightsofhell.free.fr/index.php?file=Forum">Forum</a></li>
-			<li><a href="http://knightsofhell.free.fr/index.php?file=Wars">Guerres</a></li>
+			<li>
+				<div class="dropdown"><a href="#">Guerres</a>
+				<div class="dropdown-content">
+					<a href="http://knightsofhell.free.fr/index.php?file=Wars">Historique</a>
+					<a href="index.php?op=GDCinProgress">Strat GDC</a>
+				</div>
+				</div></li>
 			<li>
 				<div class="dropdown"><a href="#">Clasher</a>
 				<div class="dropdown-content">
@@ -28,7 +34,7 @@
 		echo 'Connection failed: ' . $e->getMessage();
 	}
 	// op list
-	$ops = ['clan', 'daily', 'logs' ,'playerprofile', 'weekly'];
+	$ops = ['clan', 'daily', 'logs' ,'playerprofile', 'weekly', 'GDCinProgress'];
 	$List = scandir("modules");
 	foreach($List as $key => $value) {
 		$test = strpos($value, ".php");
