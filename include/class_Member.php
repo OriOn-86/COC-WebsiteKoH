@@ -140,14 +140,14 @@ class MemberManager{
 	public function __construct($db) {$this->_db = $db;}
 	// create member from db
 	public function get($tag) {
-		$qry = $this->_db->query('SELECT * FROM `coc_weeklyData` WHERE `player_tag` = "' . $tag . '" ORDER BY `daterecord` DESC LIMIT 0, 1;');
+		$qry = $this->_db->query('SELECT * FROM `coc_weeklydata` WHERE `player_tag` = "' . $tag . '" ORDER BY `daterecord` DESC LIMIT 0, 1;');
 		$res = $qry->fetch(PDO::FETCH_ASSOC);
 		return new Member($res);
 	}
 	// create members from db by date
 	public function getByDate($daterecord) {
 		$Knights = [];
-		$qry = $this->_db->query('SELECT * FROM `coc_weeklyData` WHERE `daterecord` = ' . $daterecord);
+		$qry = $this->_db->query('SELECT * FROM `coc_weeklydata` WHERE `daterecord` = ' . $daterecord);
 		while ($res = $qry->fetch(PDO::FETCH_ASSOC)) {
 			$Knights[] = new Member($res);
 		}
@@ -220,7 +220,7 @@ class MemberManager{
 	}
 	// write member into db
 	public function add(Member $Knight) {
-		$qry = $this->_db->prepare("INSERT INTO `coc_weeklyData`(`daterecord`, `player_tag`, `name`, `townHallLevel`, `warStars`, `attackWins`, `defenseWins`, `Barbarian`, `Archer`, `Goblin`, `Giant`, `Wall_Breaker`, `Balloon`, `Wizard`, `Healer`, `Dragon`, `PEKKA`, `Baby_Dragon`, `Miner`, `Minion`, `Hog_Rider`, `Valkyrie`, `Golem`, `Witch`, `Lava_Hound`, `Bowler`, `Barbarian_King`, `Archer_Queen`, `Grand_Warden`, `Lightning_Spell`, `Healing_Spell`, `Rage_Spell`, `Jump_Spell`, `Freeze_Spell`, `Clone_Spell`, `Poison_Spell`, `Earthquake_Spell`, `Haste_Spell`, `Skeleton_Spell`) VALUES (:daterecord, :player_tag, :name, :townHallLevel, :warStars, :attackWins, :defenseWins, :Barbarian, :Archer, :Goblin, :Giant, :Wall_Breaker, :Balloon, :Wizard, :Healer, :Dragon, :PEKKA, :Baby_Dragon, :Miner, :Minion, :Hog_Rider, :Valkyrie, :Golem, :Witch, :Lava_Hound, :Bowler, :Barbarian_King, :Archer_Queen, :Grand_Warden, :Lightning_Spell, :Healing_Spell, :Rage_Spell, :Jump_Spell, :Freeze_Spell, :Clone_Spell, :Poison_Spell, :Earthquake_Spell, :Haste_Spell, :Skeleton_Spell)");
+		$qry = $this->_db->prepare("INSERT INTO `coc_weeklydata`(`daterecord`, `player_tag`, `name`, `townHallLevel`, `warStars`, `attackWins`, `defenseWins`, `Barbarian`, `Archer`, `Goblin`, `Giant`, `Wall_Breaker`, `Balloon`, `Wizard`, `Healer`, `Dragon`, `PEKKA`, `Baby_Dragon`, `Miner`, `Minion`, `Hog_Rider`, `Valkyrie`, `Golem`, `Witch`, `Lava_Hound`, `Bowler`, `Barbarian_King`, `Archer_Queen`, `Grand_Warden`, `Lightning_Spell`, `Healing_Spell`, `Rage_Spell`, `Jump_Spell`, `Freeze_Spell`, `Clone_Spell`, `Poison_Spell`, `Earthquake_Spell`, `Haste_Spell`, `Skeleton_Spell`) VALUES (:daterecord, :player_tag, :name, :townHallLevel, :warStars, :attackWins, :defenseWins, :Barbarian, :Archer, :Goblin, :Giant, :Wall_Breaker, :Balloon, :Wizard, :Healer, :Dragon, :PEKKA, :Baby_Dragon, :Miner, :Minion, :Hog_Rider, :Valkyrie, :Golem, :Witch, :Lava_Hound, :Bowler, :Barbarian_King, :Archer_Queen, :Grand_Warden, :Lightning_Spell, :Healing_Spell, :Rage_Spell, :Jump_Spell, :Freeze_Spell, :Clone_Spell, :Poison_Spell, :Earthquake_Spell, :Haste_Spell, :Skeleton_Spell)");
 		$qry->bindValue(':daterecord', $Knight->daterecord());
 		$qry->bindValue(':player_tag', $Knight->player_tag());
 		$qry->bindValue(':name', $Knight->name());
