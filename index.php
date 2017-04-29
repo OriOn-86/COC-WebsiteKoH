@@ -6,6 +6,9 @@
 	<link rel="stylesheet" href="include/style.css"></link>
 	<title>Clash of Clans</title>
 	<script src="js/highcharts.js"></script>
+	<link rel="icon" type="image/png" href="images/favicon.png" />
+	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" /> 
+	<link rel="apple-touch-icon" href="images/favicon.ico" />
 </head>
 <body>
 	<header>
@@ -27,7 +30,7 @@
 
 <?php
 	// include db.conf and open $db
-	include("include/db.conf.php");
+	include("include/conf.db.php");
 	try {
 		$db = new PDO($dsn, $user, $password);
 	} catch(PDOException $e) {
@@ -72,7 +75,7 @@
 			<div class="footerBlock">
 				<h1>RAPPORTS JOURNALIERS</h1>
 				<?php 
-					$sql = "SELECT `date` FROM `coc_dailyData` GROUP BY `date` ORDER BY `date` DESC LIMIT 3;";
+					$sql = "SELECT `date` FROM `coc_dailydata` GROUP BY `date` ORDER BY `date` DESC LIMIT 3;";
 					$qry = $db->query($sql);
 					while ($row = $qry->fetch(PDO::FETCH_ASSOC)) {
 						echo "
@@ -85,7 +88,7 @@
 			<div class="footerBlock">
 				<h1>RAPPORTS HEBDOMADAIRES</h1>
 				<?php 
-					$sql = "SELECT `date` FROM `coc_weeklyAnalysis` GROUP BY `date` ORDER BY `date` DESC LIMIT 3;";
+					$sql = "SELECT `date` FROM `coc_weeklyanalysis` GROUP BY `date` ORDER BY `date` DESC LIMIT 3;";
 					$qry = $db->query($sql);
 					while ($row = $qry->fetch(PDO::FETCH_ASSOC)) {
 						echo "

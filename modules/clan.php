@@ -10,7 +10,7 @@ try {
 }
 // latest data for display
 $sql = "SELECT `daterecord`, `clanlevel`, `clanmembers`, `clanpoints` "
-	. "FROM `coc_dailyClanData` "
+	. "FROM `coc_dailyclandata` "
 	. "ORDER BY `daterecord` DESC "
 	. "LIMIT 1;"; $qry = $db->query($sql); while ($row = $qry->fetch(PDO::FETCH_ASSOC)) {
 	$clanLevel = $row['clanlevel'];
@@ -29,7 +29,7 @@ $Champion = 0;
 $Titan = 0;
 $Legend = 0;
 $sql = "SELECT `league` "
-	. "FROM `coc_dailyData` "
+	. "FROM `coc_dailydata` "
 	. "WHERE `date`='$daterecord';"; $qry = $db->query($sql); while ($row = $qry->fetch(PDO::FETCH_ASSOC)) {
 	$league = $row['league'];
 	if ($pos = strpos($league, " ")) {
@@ -105,7 +105,7 @@ if ($Legend > 0) {
 // chart 1 for trophy evo.
 // chart 2 for member evo.
 $sql = "SELECT `daterecord`, `clanmembers`, `clanpoints` "
-	. "FROM `coc_dailyClanData` "
+	. "FROM `coc_dailyclandata` "
 	. "ORDER BY `daterecord` DESC "
 	. "LIMIT 30;"; $qry = $db->query($sql); while ($row = $qry->fetch(PDO::FETCH_ASSOC)) {
 	$daterecord = $row['daterecord'];

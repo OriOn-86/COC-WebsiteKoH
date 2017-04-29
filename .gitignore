@@ -1,2 +1,3 @@
-include/db.conf.php
+include/conf.db.php
+include/conf.api.php
 
