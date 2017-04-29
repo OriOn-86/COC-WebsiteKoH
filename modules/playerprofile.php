@@ -5,7 +5,7 @@ echo "
 	<select name='PlayerTag'>
 		<option value='0'> --- Select a Player --- </option>
 ";
-$sth = $db->prepare('SELECT `player_tag`, `name` FROM `coc_dailyData` WHERE `date`=(SELECT `date` FROM `coc_dailyData` ORDER BY `date` DESC LIMIT 1)');
+$sth = $db->prepare('SELECT `player_tag`, `name` FROM `coc_dailydata` WHERE `date`=(SELECT `date` FROM `coc_dailydata` ORDER BY `date` DESC LIMIT 1)');
 $sth->execute();
 while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 	$tag = $row['player_tag'];
@@ -28,7 +28,7 @@ if (isset($_POST['PlayerTag']) or isset($_GET['PlayerTag'])) {
 	}
 	try {
 		// trophies data for chart
-		$sth = $db->prepare('SELECT `date`, `trophies` FROM `coc_dailyData` WHERE `player_tag`=:tag ORDER BY `date` DESC LIMIT 0, 50');
+		$sth = $db->prepare('SELECT `date`, `trophies` FROM `coc_dailydata` WHERE `player_tag`=:tag ORDER BY `date` DESC LIMIT 0, 50');
 		$sth->execute(array(':tag' => $PlayerTag));
 		while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 			$date = $row['date'];
@@ -37,7 +37,7 @@ if (isset($_POST['PlayerTag']) or isset($_GET['PlayerTag'])) {
 			$data1[] = "[$timestamp, $trophies]";
 		}
 		// General stats from API data
-		$sth = $db->prepare('SELECT * FROM `coc_dailyData` WHERE `player_tag`=:tag AND `date`=(SELECT `date` FROM `coc_dailyData` ORDER BY `date` DESC LIMIT 1)');
+		$sth = $db->prepare('SELECT * FROM `coc_dailydata` WHERE `player_tag`=:tag AND `date`=(SELECT `date` FROM `coc_dailydata` ORDER BY `date` DESC LIMIT 1)');
 		$sth->execute(array(':tag' => $PlayerTag));
 		while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 			$PlayerName = $row['name'];
@@ -53,7 +53,7 @@ if (isset($_POST['PlayerTag']) or isset($_GET['PlayerTag'])) {
 			$SeasonStart = $row['season_start'];
 		}
 		// Min / Max of the season
-		$sth = $db->prepare('SELECT `trophies` FROM `coc_dailyData` WHERE `date`>= :BeginSeason AND `player_tag`= :tag');
+		$sth = $db->prepare('SELECT `trophies` FROM `coc_dailydata` WHERE `date`>= :BeginSeason AND `player_tag`= :tag');
 		$sth->execute(array(':BeginSeason' => $SeasonStart, ':tag' => $PlayerTag));
 		$TULimit = 0;
 		$TLLimit = 0;
@@ -99,7 +99,7 @@ if (isset($_POST['PlayerTag']) or isset($_GET['PlayerTag'])) {
 	$Heroes = ["Barbarian_King", "Archer_Queen", "Grand_Warden"];
 	$Spells = ["Lightning_Spell", "Healing_Spell", "Rage_Spell", "Jump_Spell", "Freeze_Spell", "Clone_Spell", "Poison_Spell", "Earthquake_Spell", "Haste_Spell", "Skeleton_Spell"];
 	$max_level = [];
-	$sql = "SELECT * FROM `coc_itemMaxLevel`";
+	$sql = "SELECT * FROM `coc_itemmaxlevel`";
 	$qry = $db->query($sql);
 	while ($row = $qry->fetch(PDO::FETCH_ASSOC)) {
 		$max_level[$row['name']] = $row['maximum_level'];
@@ -211,7 +211,7 @@ if (isset($_POST['PlayerTag']) or isset($_GET['PlayerTag'])) {
 		<th>Received</th>
 	</tr>";
 	// last 50 daily records
-	$sth = $db->prepare('SELECT `date`, `expLevel`, `league`, `clanRank`, `donations`, `donationsReceived`  FROM `coc_dailyData` WHERE name= :name ORDER BY `date` DESC LIMIT 0, 50');
+	$sth = $db->prepare('SELECT `date`, `expLevel`, `league`, `clanRank`, `donations`, `donationsReceived`  FROM `coc_dailydata` WHERE name= :name ORDER BY `date` DESC LIMIT 0, 50');
 	$sth->execute(array(':name' => $PlayerName));
 	while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 		echo "

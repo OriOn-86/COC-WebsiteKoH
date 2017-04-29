@@ -82,7 +82,7 @@ class AttackManager {
 		$qry->bindValue(':warid', $warid);
 		$qry->bindValue(':Player_ID', $tag);
 		$qry->execute();
-		return $qry->fetch(PDO::FETCH_ASSOC);
+		return $qry->fetch(PDO::FETCH_ASSOC)['MapRank'];
 	}
 	
 	// write attacks into db
@@ -111,14 +111,20 @@ class AttackManager {
 	}
 	
 	// update attacks
-	public function UpdateWarAttacks(Attack $warAttacks) {
+	public function UpdateWarAttacks($warAttacks) {
 		$SQL = "";
 		foreach ($warAttacks as $Attack) {
-			$SQL .= "UPDATE `coc_currentwar_detail` SET  `Attacked`=" . $Attack->Attacked() .
-			", `Attack_1_Rank`=" . $Attack->Attack_1_Rank() . ", `Attack_1_Percentage`=" . $Attack->Attack_1_Percentage() . ", `Attack_1_Star`=" . $Attack->Attack_1_Star() .
-			", `Attack_2_Rank`=" . $Attack->Attack_2_Rank() .	", `Attack_2_Percentage`=" . $Attack->Attack_2_Percentage() .	", `Attack_2_Star`=" . $Attack->Attack_2_Star() .
-			", `EBA_AttackerRank`=" . $Attack->EBA_AttackerRank() . ", `EBA_Destruction`=" .  $Attack->EBA_Destruction() . ", `EBA_Star`=" . $Attack->EBA_Star() .
-			"WHERE `Player_ID`='". $Attack->Player_ID() . "'; " . PHP_EOL;
+			$SQL .= "UPDATE `coc_currentwar_detail` SET  `Attacked`=" . $Attack->Attacked()
+			. ", `Attack_1_Rank`=" . Nz($Attack->Attack_1_Rank(), 0)
+			. ", `Attack_1_Percentage`=" . Nz($Attack->Attack_1_Percentage(), 0)
+			. ", `Attack_1_Star`=" . Nz($Attack->Attack_1_Star(), 0)
+			. ", `Attack_2_Rank`=" . Nz($Attack->Attack_2_Rank(), 0)
+			. ", `Attack_2_Percentage`=" . Nz($Attack->Attack_2_Percentage(), 0)
+			. ", `Attack_2_Star`=" . Nz($Attack->Attack_2_Star(), 0)
+			. ", `EBA_AttackerRank`=" . Nz($Attack->EBA_AttackerRank(), 0)
+			. ", `EBA_Destruction`=" .  Nz($Attack->EBA_Destruction(), 0)
+			. ", `EBA_Star`=" . Nz($Attack->EBA_Star(), 0)
+			. " WHERE `Player_ID`='". $Attack->Player_ID() . "'; ";
 		}
 		
 		$qry = $this->_db->prepare($SQL);
@@ -145,9 +151,9 @@ class AttackManager {
 			$Attack = $Attacks[$warSize + $MapPosition - 1];
 			// lookup Name
 			$qry = $this->_db->prepare("SELECT `name` FROM `coc_dailydata` WHERE `player_tag`=:player_tag ORDER BY `date` DESC LIMIT 1");
-			$qry->bindValue(':player_tag', $Attack->Player_ID());
+			$qry->bindValue(':player_tag', substr($Attack->Player_ID(),1));
 			$qry->execute();
-			$Attack->SetPlayer_Name($qry->fetch(PDO::FETCH_ASSOC));
+			$Attack->SetPlayer_Name($qry->fetch(PDO::FETCH_ASSOC)['name']);
 		} else {
 			$Attack = new Attacks([]);
 		}

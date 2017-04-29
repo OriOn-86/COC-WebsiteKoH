@@ -11,7 +11,7 @@ try {
 
 // import classes
 require("include/class_CurrentWar.php");
-require("../COC_API_KoH/COC-API_KnightsOfHell/class_Attacks.php");
+require("include/class_Attacks.php");
 
 // PHP functions 
 function Nz($variable, $default) {

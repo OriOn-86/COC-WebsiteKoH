@@ -73,13 +73,13 @@ try {
 if (isset($_GET['day'])) {
 	$daterecord = $_GET['day'];
 } else {
-	$sql = "SELECT `date` FROM `coc_weeklyAnalysis` ORDER BY `id` DESC LIMIT 0,1";
+	$sql = "SELECT `date` FROM `coc_weeklyanalysis` ORDER BY `id` DESC LIMIT 0,1";
 	$qry = $db->query($sql)->fetch(PDO::FETCH_ASSOC);
 	$daterecord = $qry['date'];
 }
 
 // Load data
-$sql = "SELECT `name`, `infraction`, `D_Initial`, `D_Final`, `R_Initial`, `R_Final` FROM `coc_weeklyAnalysis` WHERE `date`=\"" . $daterecord . "\" ORDER BY `name` LIMIT 0, 50";
+$sql = "SELECT `name`, `infraction`, `D_Initial`, `D_Final`, `R_Initial`, `R_Final` FROM `coc_weeklyanalysis` WHERE `date`=\"" . $daterecord . "\" ORDER BY `name` LIMIT 0, 50";
 $qry = $db->query($sql);
 while ($data = $qry->fetch(PDO::FETCH_ASSOC)) {
 	$Knights[] = new Weekly($data);
