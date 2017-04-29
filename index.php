@@ -18,7 +18,7 @@
 				<div class="dropdown"><a href="#">Guerres</a>
 				<div class="dropdown-content">
 					<a href="http://knightsofhell.free.fr/index.php?file=Wars">Historique</a>
-					<a href="index.php?op=GDCinProgress">Strat GDC</a>
+					<a href="index.php?op=CurrentClanWar">Strat GDC</a>
 				</div>
 				</div></li>
 			<li>
@@ -34,13 +34,13 @@
 		echo 'Connection failed: ' . $e->getMessage();
 	}
 	// op list
-	$ops = ['clan', 'daily', 'logs' ,'playerprofile', 'weekly', 'GDCinProgress'];
+	$ops = ['clan', 'daily', 'logs' ,'playerprofile', 'weekly', 'CurrentClanWar'];
 	$List = scandir("modules");
 	foreach($List as $key => $value) {
 		$test = strpos($value, ".php");
 		if (($test > 0) and $value!="index.php") {
 			$MenuItem = substr($value, 0, -4);
-			if (in_array($MenuItem, $ops)) {
+			if (in_array($MenuItem, $ops) && $MenuItem!=='CurrentClanWar') {
 				echo " 
 				<a href='index.php?op=$MenuItem'>" . str_replace("_", " ", strtoupper($MenuItem)) . "</a>";
 			}

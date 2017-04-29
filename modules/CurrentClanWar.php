@@ -11,12 +11,58 @@ try {
 
 // import classes
 require("include/class_CurrentWar.php");
-require("include/class_Attacks.php");
+require("../COC_API_KoH/COC-API_KnightsOfHell/class_Attacks.php");
 
-// function 
+// PHP functions 
 function Nz($variable, $default) {
 	return isset($variable)?$variable:$default;
 }
+function Stars($Number) {
+	$Stars = "";
+	for ($Star = 1; $Star <= 3; $Star++) {
+		if ($Star <= $Number) {
+			$Stars .= "<img class='star' src='images/starON.png' />";
+		} else {
+			$Stars .= "<img class='star' src='images/starOFF.png' />";
+		}
+	}
+	return $Stars;
+}
+function StoredValueFrom($control) {
+	global $db;
+	$sql = "SELECT `target` FROM `coc_currentwar_strat` WHERE `id` = '$control';";
+	$qry = $db->prepare($sql);
+	$qry->execute();
+	
+	return $qry->fetch(PDO::FETCH_ASSOC)['target'];
+}
+// JavaScript functions
+echo "
+<script>
+	function SaveStrat(Attack, Target) {
+		
+			Attack = encodeURIComponent(Attack);
+			Target = encodeURIComponent(Target);
+			var request = new XMLHttpRequest();
+			request.open( 'GET' , 'modules/CWStrater.php?Attack=' + Attack + '&Target=' + Target, true);
+			request.onreadystatechange = function () {
+				if (request.readyState == 4 && request.status == 200) {
+					if (typeof (request.reponseText) !== 'undefined') {
+						alert (request.responseText);
+					}
+				} else if (request.readyState == 4 && request.status == 500) {
+					alert ('server error');
+				}
+				else if (request.readyState == 4 && request.status != 200 && request.status != 500 ) { 
+					alert ('Something went wrong!');
+				}
+			}
+			request.send(null);
+		
+		return 0;
+	}
+</script>";
+
 
 // create objects
 $CWManager = new CurrentWarManager($db);
@@ -66,21 +112,29 @@ for ($x = 1; $x <= $WarSize; $x++) {
 			<div class='position'>$x</div>
 			<div class='TH-Destruction'><img class='TH' src='images/profile/TownHall/TownHall_" . $Member->Player_TH() . ".png' /></div>
 			<div class='playerName'><p>" . $Member->Player_Name() . "</p><a href=\"index.php?op=playerprofile&PlayerTag=" . substr($Member->Player_ID(), 1) . "\"><img src='images/burger.png'/></a></div>
-			<div class='RequestedTargets'><input type='text' name='$x-1' /><input type='text' name='$x-2' /></div>
+			<div class='RequestedTargets'>
+				<input type='text' name='$x-1' onChange='SaveStrat(this.name, this.value)' value='" . StoredValueFrom("$x-1") . "' maxlength='20'/>
+				<input type='text' name='$x-2' onChange='SaveStrat(this.name, this.value)' value='" . StoredValueFrom("$x-2") . "' maxlength='20'/>
+			</div>
 			<div class='Attack'>"; 
-	$target = $Member->Attack_1_Rank();
-	if ($target!=0) {
-		echo $target;
+	if ($Member->Attack_1_Rank()!=0) {
+		echo "
+				<div class='target'><img src='images/target.png' /><p>". $Member->Attack_1_Rank() ."</p></div>
+				<div class='stars'>" . Stars($Member->Attack_1_Star()) ."</div>
+				<div class='percent'><p>" . $Member->Attack_1_Percentage() . " %</p></div>";
 	} else {
 		echo "Pas encore";
 	}
 	echo "</div>
 			<div class='Attack'>";
-	$target = $Member->Attack_2_Rank();
-	if ($target!=0) {
-		echo $target;
+	if ($Member->Attack_2_Rank()!=0) {
+		echo "
+				<div class='target'><img src='images/target.png' /><p>". $Member->Attack_2_Rank() ."</p></div>
+				<div class='stars'>" . Stars($Member->Attack_2_Star()) ."</div>
+				<div class='percent'><p>" . $Member->Attack_2_Percentage() . " %</p></div>";
 	} else {
-		echo "Pas encore";
+		echo "
+				<div class='NotUsed'>Pas encore</div>";
 	}
 	echo "</div>
 		</div>";
@@ -89,7 +143,7 @@ for ($x = 1; $x <= $WarSize; $x++) {
 	echo "
 		<div class='opponent'>
 			<div class='position'>$x</div>
-			<div class='TH-Destruction'><img class='TH' src='images/profile/TownHall/TownHall_" . $Opponent->Player_TH() . ".png' />" . $Opponent->EBA_Star() . "</div>
+			<div class='TH-Destruction'><img class='TH' src='images/profile/TownHall/TownHall_" . $Opponent->Player_TH() . ".png' />" . Stars($Opponent->EBA_Star()) . "</div>
 		</div>
 	</div>";
 }

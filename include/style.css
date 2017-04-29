@@ -476,3 +476,177 @@ div[data-ratio='good'] {
 #lastupdate {
 	width: 910px;
 }
+
+/* Current War */
+#CurrentWarHeader{
+	width:80%;
+}
+.CWHrow{
+	display:flex;
+	justify-content: center;
+}
+.CWHClanName{
+	display:					inline-block;
+	font-family:				'Supercell';
+	font-size:					20px;
+	margin:						0px;
+	margin-top: 				10px;
+	vertical-align:				top;
+	min-width:					300px;
+	text-align:					center;
+}
+.ClanBadge{
+	position: relative;
+	width: 100px;
+}
+.ClanBadge img {
+	width:						100px;
+	height:						100px;
+	position:					absolute;
+	z-index:					1;
+}
+.ClanBadge p {
+	text-align:					center;
+	width:	17px;
+	height:	14px;
+	padding-top:2px;
+	margin-left:				44px;
+	margin-top:					10px;
+	background-color:			rgb(68, 68, 68);
+	border-bottom-left-radius:	10px;
+	border-bottom-right-radius:	10px;
+	border-top-left-radius:		10px;
+	border-top-right-radius:	10px;
+	font-family:				'Supercell';
+	font-size:					8px;
+	color:						rgb(255, 255, 255);
+	text-rendering: 			optimizelegibility;
+	position:					absolute;
+	z-index:					2;
+}
+#versus{
+	margin-top: 				20px;
+	font-family:				'Supercell';
+	font-size:					16px;
+	color:						rgb(220, 144, 38);
+	height: 					36px;
+	width:						36px;
+	text-rendering: 			optimizelegibility;
+	text-align:					center;
+	text-shadow: 				rgba(141, 65, 19, 0.31) 2px 3px 0px;
+}
+.CWHRmiddle{
+	width:						236px;
+	text-align:					center;
+}
+
+#CurrentWarTable {
+	width:80%;
+}
+
+.CWTRow {
+	display: flex;
+}
+.TH-Destruction {
+}
+.RequestedTargets input {	
+	display: 			block;
+	margin-bottom:		5px;
+	margin-left:		10px;
+	margin-right:		10px;
+	margin-top:			-5px;
+	text-align:			center;
+	width: 				110px;
+	background-color:	rgb(232, 208, 100);
+}
+
+.TH{
+	width:			50px;
+	height:			50px;
+	margin-left:	10px;
+	margin-right:	10px;
+	margin-top: 	-15px;
+}
+.member {
+	background-color:			rgb(214, 204, 186);
+	display: 					flex;
+	flex-grow:					1;
+	line-height:				36px;
+	text-align:					center;
+	vertical-align:				top;
+	padding-left:				10px;
+	padding-right:				10px;
+	padding-top:				10px;
+	margin-top:					10px;
+	border-bottom-left-radius:	10px;
+	border-bottom-right-radius:	10px;
+	border-top-left-radius:		10px;
+	border-top-right-radius:	10px;
+}
+.opponent{
+	background-color:			rgb(214, 204, 186);
+	display: 					flex;
+	line-height:				36px;
+	text-align:					center;
+	vertical-align:				top;
+	padding-left:				10px;
+	padding-right:				10px;
+	padding-top:				10px;
+	margin-top:					10px;
+	margin-left:				10px;
+	border-bottom-left-radius:	10px;
+	border-bottom-right-radius:	10px;
+	border-top-left-radius:		10px;
+	border-top-right-radius:	10px;
+}
+.Attack {
+	display:		flex;
+	flex-direction: column;
+	margin-left:	10px;
+	margin-right:	10px;
+	margin-top:		-4px;
+	min-width:		75px;
+}
+.stars{
+	height: 		30px;
+	z-index: 		1;
+}
+.star {
+	width: 			30px;
+	height: 		30px;
+	margin-bottom: 	5px;
+	margin-left: 	-5px;
+}
+.target {
+	display:		inline-block;
+	line-height:	20px;
+	height:			20px;
+}
+.target img {
+	display:		inline-block;
+	width:			20px;
+	height:			20px;
+}
+.target p {
+	display:		inline-block;
+	font-family:	'Supercell';
+	font-size:		18px;
+	margin-bottom:	0px;
+	margin-left:	5px;
+	margin-top:		0px;
+	vertical-align:	top;
+}
+.percent{
+	line-height:	20px;
+	margin-top:		-22px;
+	z-index:		2;
+}
+.percent p {
+	margin-bottom:	0px;
+	margin-top:		0px;
+	font-family:	'Supercell';
+	color:			rgba(255, 255, 255, 0.9);
+	text-rendering: optimizelegibility;
+	text-align:		center;
+	text-shadow: 	rgba(18, 11, 6, 0.5) 3px 1px 0px;
+}

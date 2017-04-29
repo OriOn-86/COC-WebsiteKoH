@@ -233,7 +233,7 @@ if (isset($_POST['PlayerTag']) or isset($_GET['PlayerTag'])) {
 	";
 	
 	// WAR STATS
-/* 	echo "<section>
+	echo "<section>
 	<table width='910px'>
 	<!-- War stats -->
 	<tr>
@@ -258,8 +258,7 @@ if (isset($_POST['PlayerTag']) or isset($_GET['PlayerTag'])) {
 	</tr>
 	<!-- Footer -->
 	
-</table> */
-echo "
+</table>
 <script>
 var chart1 = new Highcharts.Chart({
 	title: {text: ''},

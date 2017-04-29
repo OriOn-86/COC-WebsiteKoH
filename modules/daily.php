@@ -55,7 +55,7 @@ try {
 if (isset($_GET['day'])) {
 	$daterecord = $_GET['day'];
 } else {
-	$sql = "SELECT `date` FROM `coc_dailyData` ORDER BY `id` DESC LIMIT 0,1";
+	$sql = "SELECT `date` FROM `coc_dailydata` ORDER BY `id` DESC LIMIT 0,1";
 	$qry = $db->query($sql)->fetch(PDO::FETCH_ASSOC);
 	$daterecord = $qry['date'];
 }
@@ -64,13 +64,13 @@ $date = new DateTime(strftime($daterecord));
 $date->sub(new DateInterval('P1D'));
 $eve = $date->format('Y-m-d');
 // Load data
-$sql = "SELECT `player_tag`, `name`, `expLevel`, `league`, `trophies`, `clanRank`, `donations`, `donationsReceived` FROM `coc_dailyData` WHERE `date`=\"" . $daterecord . "\" ORDER BY `clanRank` LIMIT 0, 50";
+$sql = "SELECT `player_tag`, `name`, `expLevel`, `league`, `trophies`, `clanRank`, `donations`, `donationsReceived` FROM `coc_dailydata` WHERE `date`=\"" . $daterecord . "\" ORDER BY `clanRank` LIMIT 0, 50";
 $qry = $db->query($sql);
 while ($data = $qry->fetch(PDO::FETCH_ASSOC)) {
 	$Knights[] = new Daily($data);
 }
 // TOP donation
-$sql = "SELECT `player_tag`, `name`, `expLevel`, `league`, `trophies`, `clanRank`, `donations`, `donationsReceived` FROM `coc_dailyData` WHERE `date`=\"" . $daterecord . "\" ORDER BY `donations` DESC LIMIT 3";
+$sql = "SELECT `player_tag`, `name`, `expLevel`, `league`, `trophies`, `clanRank`, `donations`, `donationsReceived` FROM `coc_dailydata` WHERE `date`=\"" . $daterecord . "\" ORDER BY `donations` DESC LIMIT 3";
 $qry = $db->query($sql);
 while ($data = $qry->fetch(PDO::FETCH_ASSOC)) {
 	$TopDonators[] = new Daily($data);
@@ -89,7 +89,7 @@ foreach($Knights as $row) {
 		<div class='position'>" . $row->Position() . "</div>
 		<div class='evolution' "; 
 		// implement data-position='up|down|equal|new'
-		$previousPosition = $db->query("SELECT `clanRank` FROM `coc_dailyData` WHERE `date`=\"" . $eve . "\" AND `player_tag`=\"" . $row->Tag() . "\"")->fetchColumn();
+		$previousPosition = $db->query("SELECT `clanRank` FROM `coc_dailydata` WHERE `date`=\"" . $eve . "\" AND `player_tag`=\"" . $row->Tag() . "\"")->fetchColumn();
 		if ($previousPosition) {
 			if ((int)$previousPosition < $row->Position()) {
 				echo "data-position='down'";

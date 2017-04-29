@@ -33,7 +33,7 @@ $Titan = 0;
 $Legend = 0;
 $sql = "SELECT `league` "
 	. "FROM `coc_dailyData` "
-	. "WHERE `date`='$daterecord';";
+	. "WHERE `date`=$daterecord;";
 $qry = $db->query($sql);
 while ($row = $qry->fetch(PDO::FETCH_ASSOC)) {
 	$league = $row['league'];
@@ -70,42 +70,15 @@ while ($row = $qry->fetch(PDO::FETCH_ASSOC)) {
 			break;
 	}
 }
-if ($Unranked > 0) {
-	$colors[] = "'#f4f4f4'";
-	$data3[] = "{name:'Unranked', y:" . $Unranked ."}";
-}
-if ($Bronze > 0) {
-	$colors[] = "'#916447'";
-	$data3[] = "{name:'Bronze', y:" .$Bronze ."}";
-}
-if ($Silver > 0) {
-	$colors[] = "'#a2a2a2'";
-	$data3[] = "{name:'Silver', y:" . $Silver ."}";
-}
-if ($Gold > 0) {
-	$colors[] = "'#deb74d'";
-	$data3[] = "{name:'Gold', y:" . $Gold ."}";
-}
-if ($Crystal > 0) {
-	$colors[] = "'#ae86e3'";
-	$data3[] = "{name:'Crystal', y:" . $Crystal ."}";
-}
-if ($Master > 0) {
-	$colors[] = "'#000000'";
-	$data3[] = "{name:'Master', y:" . $Master ."}";
-}
-if ($Champion > 0) {
-	$colors[] = "'#802113'";
-	$data3[] = "{name:'Champion', y:" . $Champion ."}";
-}
-if ($Titan > 0) {
-	$colors[] = "'#fddb4a'";
-	$data3[] = "{name:'Titan', y:" . $Titan ."}";
-}
-if ($Legend > 0) {
-	$colors[] = "'#54278d'";
-	$data3[] = "{name:'Legend', y:" . $Legend ."}";
-}
+if ($Unranked > 0) {$data3[]="{name:Unranked, y:" . (int)($Unranked*100/$nbMembers) ."}";}
+if ($Bronze > 0) {$data3[]="{name:Bronze, y:" . (int)($Bronze*100/$nbMembers) ."}";}
+if ($Silver > 0) {$data3[]="{name:Silver, y:" . (int)($Silver*100/$nbMembers) ."}";}
+if ($Gold > 0) {$data3[]="{name:Gold, y:" . (int)($Gold*100/$nbMembers) ."}";}
+if ($Crystal > 0) {$data3[]="{name:Crystal, y:" . (int)($Crystal*100/$nbMembers) ."}";}
+if ($Master > 0) {$data3[]="{name:Master, y:" . (int)($Master*100/$nbMembers) ."}";}
+if ($Champion > 0) {$data3[]="{name:Champion, y:" . (int)($Champion*100/$nbMembers) ."}";}
+if ($Titan > 0) {$data3[]="{name:Titan, y:" . (int)($Titan*100/$nbMembers) ."}";}
+if ($Legend > 0) {$data3[]="{name:Legend, y:" . (int)($Legend*100/$nbMembers) ."}";}
 
 // data for charts
 // chart 1 for trophy evo.
@@ -175,15 +148,13 @@ var chart2 = new Highcharts.Chart({
 	}]
 });
 var chart3 = new Highcharts.Chart({
-	title: {text: 'Répartition des joueurs par leagues'}, 
+	title: {text: 'Distribution des joueurs par leagues'}, 
 	chart: {
-		renderTo: 'Distribution', 
 		plotBackgroundColor: null,
 		plotBorderWidth: null,
 		plotShadow: false,
 		type: 'pie'
 	},
-	colors:[", join($colors, ', '), "],
 	tooltip: {pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'},
 	plotOptions: {
 		pie: {
@@ -201,4 +172,5 @@ var chart3 = new Highcharts.Chart({
 });
 </script>";
 
+var_dump($Unranked ,$Bronze ,$Silver ,$Gold ,$Crystal ,$Master ,$Champion ,$Titan ,$Legend, $data3);
 ?>
