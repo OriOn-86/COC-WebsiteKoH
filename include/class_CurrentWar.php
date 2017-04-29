@@ -96,7 +96,7 @@ class CurrentWarManager {
 	public function UpdateDb(CurrentWar $CurrentWar) {
 		$qry = $this->_db->prepare("UPDATE `coc_currentwar` SET `state`=:state,`koh_stars`=:koh_stars,`koh_attacks`=:koh_attacks,`koh_destructionPercentage`=:koh_destructionPercentage,`opponent_stars`=:opponent_stars,`opponent_attacks`=:opponent_attacks,`opponent_destructionPercentage`=:opponent_destructionPercentage WHERE `id`=:id");
 		$qry->bindValue(':id', $CurrentWar->id());
-		$qry->bindValue(':state', $CurrentWar->result());
+		$qry->bindValue(':state', $CurrentWar->state());
 		$qry->bindValue(':koh_stars', $CurrentWar->koh_stars());
 		$qry->bindValue(':koh_attacks', $CurrentWar->koh_attacks());
 		$qry->bindValue(':koh_destructionPercentage', $CurrentWar->koh_destructionPercentage());
