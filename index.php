@@ -15,7 +15,7 @@
 	<nav><!-- Menu -->
 		<h1>Clash of Clans</h1>
 		<ul>
-			<li><a href="http://knightsofhell.free.fr">Accueil</a></li>
+			<li><a href="index.php?op=clan">Accueil</a></li>
 			<li><a href="http://knightsofhell.free.fr/index.php?file=Forum">Forum</a></li>
 			<li>
 				<div class="dropdown"><a href="#">Guerres</a>
@@ -38,12 +38,14 @@
 	}
 	// op list
 	$ops = ['clan', 'daily', 'logs' ,'playerprofile', 'weekly', 'CurrentClanWar'];
+	// Clasher Menu Items
+	$MenuItems = ['logs' ,'playerprofile', 'weekly'];
 	$List = scandir("modules");
 	foreach($List as $key => $value) {
 		$test = strpos($value, ".php");
 		if (($test > 0) and $value!="index.php") {
 			$MenuItem = substr($value, 0, -4);
-			if (in_array($MenuItem, $ops) && $MenuItem!=='CurrentClanWar') {
+			if (in_array($MenuItem, $MenuItems)) {
 				echo " 
 				<a href='index.php?op=$MenuItem'>" . str_replace("_", " ", strtoupper($MenuItem)) . "</a>";
 			}
@@ -52,7 +54,7 @@
 ?>
 				</div>
 				</div></li>
-			<li><a href="http://knightsofhell.free.fr/index.php?file=Team">L'équipe</a></li>
+			<li><a href="index.php?op=daily">L'équipe</a></li>
 		</ul>
 	</nav>
 	</header>
