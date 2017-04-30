@@ -9,11 +9,38 @@ try {
 	echo 'Connection failed: ' . $e->getMessage();
 }
 
+// 
+session_start();
+
+if(isset($_GET['clearChat'])){
+	unlink("modules/log.html");
+}
+if(isset($_POST['enter'])){
+    if($_POST['name'] != ""){
+        $_SESSION['name'] = stripslashes(htmlspecialchars($_POST['name']));
+    }
+}
+if(isset($_GET['logout'])){
+    session_destroy();
+    header("Location: index.php?op=CurrentClanWar"); //Redirect the user
+}
+
 // import classes
 require("include/class_CurrentWar.php");
 require("include/class_Attacks.php");
 
-// PHP functions 
+// PHP functions
+function loginForm(){
+    echo"
+<div id='loginform'>
+    <form action='index.php?op=CurrentClanWar' method='post'>
+        <p>Entre ton pseudo pour commencer a chatter:</p>
+        <label for='name'>Pseudo:</label>
+        <input type='text' name='name' id='name' />
+        <input type='submit' name='enter' id='enter' value='Enter' />
+    </form>
+</div>";
+}
 function Nz($variable, $default) {
 	return isset($variable)?$variable:$default;
 }
@@ -149,9 +176,118 @@ for ($x = 1; $x <= $WarSize; $x++) {
 }
 echo "
 </div>
+</section>
 ";
 
+// chat
+echo "
+<section>
+<div id='maximize' class='ChatPoper'><img src='images/chat_maximize.png' /></div>
+<div id='minimize' class='ChatPoper'><img src='images/chat_minimize.png' /></div>
+<div id='Chat'>";
 
+if (!isset($_SESSION['name'])) {
+	loginForm();
+} else {
+	echo "
+<script>
+document.getElementById('minimize').style.bottom='397px';
+</script>
+<div id='ChatZone'>
+    <div id='CZMenu'>
+		<p class='CZMenuItem' id='clearChat'>Vider le chat</p>
+        <p class='CZMenuItem'><b>" . $_SESSION['name'] . "</b></p>
+        <p class='CZMenuItem'><a id='CZexit' href='#'>LogOut</a></p>
+    </div>
+     
+    <div id='CZchatbox'>";
+	if(file_exists("modules/log.html") && filesize("modules/log.html") > 0){
+		$handle = fopen("modules/log.html", "r");
+		$contents = fread($handle, filesize("modules/log.html"));
+		fclose($handle);
+		 
+		echo $contents;
+	}
+	echo "
+	</div>
+     
+    <form name='message' action='' id='sendbox'>
+        <input name='usermsg' type='text' id='usermsg' size='63' />
+        <input name='submitmsg' type='submit' id='submitmsg' value='Send' />
+    </form>
+</div>
+</div>";
+}
+echo "
+<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js'></script>
+<script type='text/javascript'>
+// jQuery Document
+$(document).ready(function(){
+// show chat
+	$('#maximize').click(function(){
+		document.getElementById('minimize').style.display='block';
+		document.getElementById('maximize').style.display='none';
+		try {
+			document.getElementById('ChatZone').style.display='block';
+		} catch (err) {}
+		try {
+			document.getElementById('loginform').style.display='block'; 
+		} catch(err) {}
+	});
+
+// hide chat
+	$('#minimize').click(function(){
+		document.getElementById('minimize').style.display='none';
+		document.getElementById('maximize').style.display='block';
+		try {
+			document.getElementById('ChatZone').style.display='none';
+		} catch (err) {}
+		try {
+			document.getElementById('loginform').style.display='none';
+		} catch (err) {}
+		});
+
+//Reload file every 2500 ms
+	setInterval (loadLog, 2500);
+
+// clear chat
+	$('#clearChat').click(function(){
+		window.location = 'index.php?op=CurrentClanWar&clearChat=true';
+	});
+
+//If user wants to end session
+	$('#CZexit').click(function(){
+		var exit = confirm('Are you sure you want to end the session?');
+		if(exit==true){window.location = 'index.php?op=CurrentClanWar&logout=true';}		
+	});
+
+//If user submits the form
+	$('#submitmsg').click(function(){	
+		var clientmsg = $('#usermsg').val();
+		$.post('modules/post.php', {text: clientmsg});				
+		$('#usermsg').attr('value', '');
+		return false;
+	});
+
+//Load the file containing the chat log
+	function loadLog(){		
+		var oldscrollHeight = $('#CZchatbox').attr('scrollHeight') - 20; //Scroll height before the request
+		$.ajax({
+			url: 'modules/log.html',
+			cache: false,
+			success: function(html){		
+				$('#CZchatbox').html(html); //Insert chat log into the #chatbox div	
+				
+				//Auto-scroll			
+				var newscrollHeight = $('#CZchatbox').attr('scrollHeight') - 20; //Scroll height after the request
+				if(newscrollHeight > oldscrollHeight){
+					$('#CZchatbox').animate({ scrollTop: newscrollHeight }, 'normal'); //Autoscroll to bottom of div
+				}				
+		  	},
+		});
+	}
+});
+</script>";
 
 
 ?>
