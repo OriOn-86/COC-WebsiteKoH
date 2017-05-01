@@ -1,8 +1,8 @@
 <?php 
-require ("../include/class_CurrentWar.php");
-require ("../include/class_Attacks.php");
-require ("../include/conf.db.php");
-require ("../include/conf.api.php");
+require ("/var/www/html/include/class_CurrentWar.php");
+require ("/var/www/html/include/class_Attacks.php");
+require ("/var/www/html/include/conf.db.php");
+require ("/var/www/html/include/conf.api.php");
 
 // db connect
 try {
