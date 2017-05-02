@@ -14,6 +14,7 @@ class War {
 	private $_opponent_name;
 	private $_opponent_clanLevel;
 	private $_opponent_stars;
+	private $_opponent_attacks;
 	private $_opponent_destructionPercentage;
 
 // methods
@@ -31,6 +32,7 @@ class War {
 	public function opponent_name() {return $this->_opponent_name;}
 	public function opponent_clanLevel() {return $this->_opponent_clanLevel;}
 	public function opponent_stars() {return $this->_opponent_stars;}
+	public function opponent_attacks() {return $this->_opponent_attacks;}
 	public function opponent_destructionPercentage() {return $this->_opponent_destructionPercentage;}
 	// setters
 	public function setId($Number) {if (is_numeric($Number)) {$this->_id = $Number;}}
@@ -46,6 +48,7 @@ class War {
 	public function setOpponent_name($String) {if (is_string($String)) {$this->_opponent_name = $String;}}
 	public function setOpponent_clanLevel($Number) {if (is_numeric($Number)) {$this->_opponent_clanLevel = $Number;}}
 	public function setOpponent_stars($Number) {if (is_numeric($Number)) {$this->_opponent_stars = $Number;}}
+	public function setOpponent_attacks($Number) {if (is_numeric($Number)) {$this->_opponent_attacks = $Number;}}
 	public function setOpponent_destructionPercentage($Number) {if (is_numeric($Number)) {$this->_opponent_destructionPercentage = $Number;}}
 	// hydrate
 	public function hydrate(array $data) {
@@ -67,7 +70,7 @@ class WarManager {
 	public function __construct ($db) {$this->_db = $db;}
 
 	public function addWarToDb(War $LastWar) {
-		$qry = $this->_db->prepare("INSERT INTO `coc_wars` (`datewar`, `result`, `team_size`, `exp_earned`, `koh_clanLevel`, `koh_stars`, `koh_attacks`, `koh_destructionPercentage`, `opponent_tag`, `opponent_name`, `opponent_clanLevel`, `opponent_stars`, `opponent_destructionPercentage`) VALUES (:datewar, :result, :team_size, :exp_earned, :koh_clanLevel, :koh_stars, :koh_attacks, :koh_destructionPercentage, :opponent_tag, :opponent_name, :opponent_clanLevel, :opponent_stars, :opponent_destructionPercentage);");
+		$qry = $this->_db->prepare("INSERT INTO `coc_wars` (`datewar`, `result`, `team_size`, `exp_earned`, `koh_clanLevel`, `koh_stars`, `koh_attacks`, `koh_destructionPercentage`, `opponent_tag`, `opponent_name`, `opponent_clanLevel`, `opponent_stars`, `opponent_attacks`, `opponent_destructionPercentage`) VALUES (:datewar, :result, :team_size, :exp_earned, :koh_clanLevel, :koh_stars, :koh_attacks, :koh_destructionPercentage, :opponent_tag, :opponent_name, :opponent_clanLevel, :opponent_stars, :opponent_attacks, :opponent_destructionPercentage);");
 		$qry->bindValue(':datewar', $LastWar->datewar());
 		$qry->bindValue(':result', $LastWar->result());
 		$qry->bindValue(':team_size', $LastWar->team_size());
@@ -80,6 +83,7 @@ class WarManager {
 		$qry->bindValue(':opponent_name', $LastWar->opponent_name());
 		$qry->bindValue(':opponent_clanLevel', $LastWar->opponent_clanLevel());
 		$qry->bindValue(':opponent_stars', $LastWar->opponent_stars());
+		$qry->bindValue(':opponent_attacks', $LastWar->opponent_attacks());
 		$qry->bindValue(':opponent_destructionPercentage', $LastWar->opponent_destructionPercentage());
 		$qry->execute();
 	}
@@ -108,12 +112,13 @@ class WarManager {
 		$LastWar->setOpponent_name($json_array->items[0]->opponent->name);
 		$LastWar->setOpponent_clanLevel($json_array->items[0]->opponent->clanLevel);
 		$LastWar->setOpponent_stars($json_array->items[0]->opponent->stars);
+		$LastWar->setOpponent_attacks($json_array->items[0]->opponent->attacks);
 		$LastWar->setOpponent_destructionPercentage($json_array->items[0]->opponent->destructionPercentage);
 		return $LastWar;
 	}
 
 	public function getWarsBySpecific(string $filter = NULL,  string $orderBy = NULL, $limit = NULL) {
-		$allowedItems = ["datewar", "result", "team_size", "exp_earned", "koh_clanLevel", "koh_stars", "koh_attacks", "koh_destructionPercentage", "opponent_tag", "opponent_name", "opponent_clanLevel", "opponent_stars", "opponent_destructionPercentage"];
+		$allowedItems = ["datewar", "result", "team_size", "exp_earned", "koh_clanLevel", "koh_stars", "koh_attacks", "koh_destructionPercentage", "opponent_tag", "opponent_name", "opponent_clanLevel", "opponent_stars", "opponent_attacks", "opponent_destructionPercentage"];
 		$Wars = [];
 		$sql = "SELECT * FROM `coc_wars` ";
 		if (isset($filter)) {

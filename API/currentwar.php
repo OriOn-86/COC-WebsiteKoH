@@ -167,9 +167,9 @@ function qryAPICurrentWar() {
 			// update war and attacks with newer information
 			$CurrentWarManager->UpdateDb($war);
 			$AttackManager->UpdateWarAttacks($Attacks);
-		} 
-		$CurrentWarManager->UpdateDb($war);
-		$AttackManager->UpdateWarAttacks($Attacks);
+		}
+		// update log
+		//$sql = "UPDATE `coc_logs` SET `date`=:date, `time`=:time WHERE ..."
 	}
 }
 
