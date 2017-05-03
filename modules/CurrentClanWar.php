@@ -14,6 +14,7 @@ session_start();
 
 if(isset($_GET['clearChat'])){
 	unlink("modules/log.html");
+	header("Location: index.php?op=CurrentClanWar");
 }
 if(isset($_POST['enter'])){
     if($_POST['name'] != ""){
@@ -195,8 +196,8 @@ document.getElementById('minimize').style.bottom='397px';
 </script>
 <div id='ChatZone'>
     <div id='CZMenu'>
-		<p class='CZMenuItem' id='clearChat'>Vider le chat</p>
-        <p class='CZMenuItem'><b>" . $_SESSION['name'] . "</b></p>
+		<p class='CZMenuItem'><a id='clearChat' href='#'>Vider le chat</a></p>
+        <p class='CZMenuName'>" . $_SESSION['name'] . "</p>
         <p class='CZMenuItem'><a id='CZexit' href='#'>LogOut</a></p>
     </div>
      
@@ -252,7 +253,8 @@ $(document).ready(function(){
 
 // clear chat
 	$('#clearChat').click(function(){
-		window.location = 'index.php?op=CurrentClanWar&clearChat=true';
+		var  exit = confirm('Are you sure you want to end the session?');
+		if(exit==true) {window.location = 'index.php?op=CurrentClanWar&clearChat=true';}
 	});
 
 //If user wants to end session
