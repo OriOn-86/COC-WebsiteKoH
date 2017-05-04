@@ -29,7 +29,10 @@
 	z-index: 3;
 }
 #loginform p, #loginform label {
-	margin-left: 10px;
+	color: 			rgb(252, 252, 252);
+	font-family :	'Supercell';
+	font-size:		12px;
+	margin-left:	10px;
 }
 #ChatZone{
 	background-color:	rgb(64, 68, 64);
@@ -45,46 +48,61 @@
 	z-index:			3;
 }
 #CZMenu{
+	background-image:	url('../images/chat_menu_bg.png');
+	background-repeat:	no-repeat;
 	height:				52px;
 	width:				100%;
-	display: 			flex;
-	justify-content:	space-around;
 }
 #CZMenu p {
-	display: 			flex;
+	display:			inline-block;
+	text-align: 		center;
+	width:				147px;
 }
-.CZMenuItem{
-	color: rgb(252, 252, 252);
-	font-family : 'Supercell';
-	font-size: 10px;
+.CZMenuItem {
+	font-family :		'Supercell';
+	font-size:			10px;
+	text-rendering: 	optimizelegibility;
+	text-shadow: 		rgba(0, 0, 0, 0.5) 0px 2px 0px;
+	margin-top: 		16px;
+    vertical-align:		top;
 }
-.CZMenuItem>b {
-	color: rgb(214, 211, 159);
-	font-size: 14px;
+.CZMenuItem>a {
+	color:				rgb(252, 252, 252);
+	text-decoration:	none;
+}
+.CZMenuName {
+	color:				rgb(214, 211, 159);
+	font-family :		'Supercell';
+	font-size:			14px;
+	text-rendering: 	optimizelegibility;
+	text-shadow: 		rgba(0, 0, 0, 0.7) 0px 3px 0px;
 }
 #CZchatbox{
-	height:	300px;
+	height:				300px;
 }
 #sendbox{
-	height: 44px;
-	vertical-align: middle;
+	height:				44px;
+	vertical-align:		middle;
 }
 #sendbox input {
-	margin-top: 4px;
+	margin-top:			4px;
 }
 #usermsg{
-	margin-left: 10px;
-	width: 80%;
+	margin-left:		10px;
+	width:				80%;
 }
 .msgln {
-	font-family: 'Supercell';
-	color: rgb(252, 252, 252);
-	font-size: 10px;
+	margin-left: 		5px;
+	margin-right:		5px;
+	font-family:		'Supercell';
+	color:				rgb(252, 252, 252);
+	font-size:			10px;
+	text-rendering: 	optimizelegibility;
+	text-shadow: 		rgba(0, 0, 0, 0.5) 0px 2px 0px;
 }
 .msgln b {
-	color: rgb(214, 211, 159);
-	font-size: 12px;
-	
+	color:				rgb(214, 211, 159);
+	font-size:			12px;
 }
 
 /* backgrounds */
