@@ -124,7 +124,8 @@ class AttackManager {
 			. ", `EBA_AttackerRank`=" . Nz($Attack->EBA_AttackerRank(), 0)
 			. ", `EBA_Destruction`=" .  Nz($Attack->EBA_Destruction(), 0)
 			. ", `EBA_Star`=" . Nz($Attack->EBA_Star(), 0)
-			. " WHERE `Player_ID`='". $Attack->Player_ID() . "'; ";
+			. " WHERE (`warid`=" . $Attack->warid() 
+			. " AND `Player_ID`='". $Attack->Player_ID() . "'); ";
 		}
 		
 		$qry = $this->_db->prepare($SQL);
