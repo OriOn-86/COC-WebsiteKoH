@@ -1,10 +1,10 @@
 <?php
 // configuraiton files
-require ("../include/conf.db.php");
-require ("../include/conf.api.php");
+require ("/var/www/html/include/conf.db.php");
+require ("/var/www/html/include/conf.api.php");
 // object files
-require ("../include/class_Member.php");
-require ("../include/class_War.php");
+require ("/var/www/html/include/class_Member.php");
+require ("/var/www/html/include/class_War.php");
 
 // db connect
 try {
