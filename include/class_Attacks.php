@@ -144,6 +144,32 @@ class AttackManager {
 		return $CurrentWarAttacks;
 	}
 	
+	public function getPlayerAttacks($player_tag) {
+	// First stage analysis of last attacks 
+		$sql = "SELECT `MapRank`, `Attack_1_Rank`, `Attack_1_Percentage`, `Attack_2_Rank`, `Attack_2_Percentage` FROM `coc_currentwar_detail` WHERE `Player_ID`='$player_tag' order by `warid` DESC LIMIT 5;";
+		$qry = $this->_db->query($sql);
+		$AttackList = [];
+		$ScoreList = [];
+		$Stat = [];
+		$x = 0;
+		while ($data = $qry->fetch(PDO::FETCH_ASSOC)) {
+			if ($data['Attack_1_Rank'] > 0) {
+				$AttackList[$x] = $data['MapRank'] - $data['Attack_1_Rank'];
+				$ScoreList[$x] = $data['Attack_1_Percentage'];
+				$Stat[$x] = array($AttackList[$x],$ScoreList[$x]);
+				$x+=1;
+			}
+			if ($data['Attack_2_Rank'] > 0) {
+				$AttackList[$x] = $data['MapRank'] - $data['Attack_2_Rank'];
+				$ScoreList[$x] = $data['Attack_2_Percentage'];
+				$Stat[$x] = array($AttackList[$x],$ScoreList[$x]);
+				$x+=1;
+			}
+		}
+		array_multisort($ScoreList, SORT_DESC, $AttackList, SORT_DESC, $Stat);
+		return $Stat;
+	}
+	
 	// select player's info from his map position
 	public function MemberAtPosition($Attacks, $MapPosition, $warSize) {
 		// preliminary checks
