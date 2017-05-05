@@ -84,8 +84,12 @@
 	height:				44px;
 	vertical-align:		middle;
 }
-#sendbox input {
-	margin-top:			4px;
+#usermsg {
+	margin-top:			5px;
+	vertical-align:		top;
+}
+#submitmsg{
+	margin-left:		5px
 }
 #usermsg{
 	margin-left:		10px;

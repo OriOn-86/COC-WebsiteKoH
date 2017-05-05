@@ -214,7 +214,7 @@ document.getElementById('minimize').style.bottom='397px';
      
     <form name='message' action='' id='sendbox'>
         <input name='usermsg' type='text' id='usermsg' size='63' />
-        <input name='submitmsg' type='submit' id='submitmsg' value='Send' />
+        <input name='submitmsg' type='image' id='submitmsg' src='images/chat_post.png' />
     </form>
 </div>
 </div>";
