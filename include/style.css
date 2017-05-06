@@ -79,6 +79,7 @@
 }
 #CZchatbox{
 	height:				300px;
+	overflow:			auto;
 }
 #sendbox{
 	height:				44px;
