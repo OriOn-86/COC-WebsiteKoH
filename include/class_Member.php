@@ -155,9 +155,9 @@ class MemberManager{
 	}
 	// create member from json API.
 	public function getFromJSON($daterecord, $json_array) {
-		$Knight = new Member();
+		$Knight = new Member([]);
 		// fix part
-		$Knight->setdarecord($daterecord);
+		$Knight->setdaterecord($daterecord);
 		$Knight->settag($json_array['tag']);
 		$Knight->setname($json_array['name']);
 		$Knight->settownHallLevel($json_array['townHallLevel']);

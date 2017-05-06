@@ -88,6 +88,12 @@ class WarManager {
 		$qry->execute();
 	}
 
+	public function getLastWarFromDb() {
+		$sql = "SELECT * FROM `coc_wars` ORDER BY `id` DESC LIMIT 1;";
+		$data = $this->_db->query($sql)->fetch(PDO::FETCH_ASSOC);
+		return new War($data);
+	}
+	
 	public function getWarFromID($warid) {
 		$sql = "SELECT * FROM `coc_wars` WHERE `id` = $warid";
 		$data = $this->_db->query($sql)->fetch(PDO::FETCH_ASSOC);
