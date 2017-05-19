@@ -41,7 +41,7 @@ class Member {
 	private $_Earthquake_Spell;
 	private $_Haste_Spell;
 	private $_Skeleton_Spell;
-// GETTERS	
+// GETTERS
 	public function daterecord() {return $this->_daterecord;}
 	public function player_tag() {return $this->_player_tag;}
 	public function name() {return $this->_name;}
@@ -140,9 +140,8 @@ class MemberManager{
 	public function __construct($db) {$this->_db = $db;}
 	// create member from db
 	public function get($tag) {
-		$qry = $this->_db->query('SELECT * FROM `coc_weeklydata` WHERE `player_tag` = "' . $tag . '" ORDER BY `daterecord` DESC LIMIT 0, 1;');
-		$res = $qry->fetch(PDO::FETCH_ASSOC);
-		return new Member($res);
+		$qry = $this->_db->query("SELECT * FROM `coc_weeklydata` WHERE `player_tag` = '$tag' ORDER BY `daterecord` DESC LIMIT 1;");
+		return new Member($qry->fetch(PDO::FETCH_ASSOC));
 	}
 	// create members from db by date
 	public function getByDate($daterecord) {
@@ -155,63 +154,63 @@ class MemberManager{
 	}
 	// create member from json API.
 	public function getFromJSON($daterecord, $json_array) {
-		$Knight = new Member();
+		$Knight = new Member([]);
 		// fix part
-		$Knight->setdarecord($daterecord);
-		$Knight->settag($json_array['tag']);
-		$Knight->setname($json_array['name']);
-		$Knight->settownHallLevel($json_array['townHallLevel']);
-		$Knight->setbestTrophies($json_array['bestTrophies']);
-		$Knight->setwarStars($json_array['warStars']);
-		$Knight->setattackWins($json_array['attackWins']);
-		$Knight->setdefenseWins($json_array['defenseWins']);
+		$Knight->setdaterecord($daterecord);
+		$Knight->settag(substr($json_array->tag, 1));
+		$Knight->setname($json_array->name);
+		$Knight->settownHallLevel($json_array->townHallLevel);
+		$Knight->setbestTrophies($json_array->bestTrophies);
+		$Knight->setwarStars($json_array->warStars);
+		$Knight->setattackWins($json_array->attackWins);
+		$Knight->setdefenseWins($json_array->defenseWins);
 		// variable part
 		// since barbarians are available from the begining no set check of the troop array.
-		foreach ($json_array['troops'] as $item) {
-			switch($item['name']) { 
-				case "Barbarian": $Knight->setBarbarian($item['level']); break;
-				case "Archer": $Knight->setArcher($item['level']); break;
-				case "Goblin": $Knight->setGoblin($item['level']); break;
-				case "Giant": $Knight->setGiant($item['level']); break;
-				case "Wall Breaker": $Knight->setWall_Breaker($item['level']); break;
-				case "Balloon": $Knight->setBalloon($item['level']); break;
-				case "Wizard": $Knight->setWizard($item['level']); break;
-				case "Healer": $Knight->setHealer($item['level']); break;
-				case "Dragon": $Knight->setDragon($item['level']); break;
-				case "P.E.K.K.A": $Knight->setPEKKA($item['level']); break;
-				case "Baby Dragon": $Knight->setBaby_Dragon($item['level']); break;
-				case "Miner": $Knight->setMiner($item['level']); break;
-				case "Minion": $Knight->setMinion($item['level']); break;
-				case "Hog Rider": $Knight->setHog_Rider($item['level']); break;
-				case "Valkyrie": $Knight->setValkyrie($item['level']); break;
-				case "Golem": $Knight->setGolem($item['level']); break;
-				case "Witch": $Knight->setWitch($item['level']); break;
-				case "Lava Hound": $Knight->setLava_Hound($item['level']); break;
-				case "Bowler": $Knight->setBowler($item['level']); break;
+		foreach ($json_array->troops as $item) {
+			switch($item->name) { 
+				case "Barbarian": $Knight->setBarbarian($item->level); break;
+				case "Archer": $Knight->setArcher($item->level); break;
+				case "Goblin": $Knight->setGoblin($item->level); break;
+				case "Giant": $Knight->setGiant($item->level); break;
+				case "Wall Breaker": $Knight->setWall_Breaker($item->level); break;
+				case "Balloon": $Knight->setBalloon($item->level); break;
+				case "Wizard": $Knight->setWizard($item->level); break;
+				case "Healer": $Knight->setHealer($item->level); break;
+				case "Dragon": $Knight->setDragon($item->level); break;
+				case "P.E.K.K.A": $Knight->setPEKKA($item->level); break;
+				case "Baby Dragon": $Knight->setBaby_Dragon($item->level); break;
+				case "Miner": $Knight->setMiner($item->level); break;
+				case "Minion": $Knight->setMinion($item->level); break;
+				case "Hog Rider": $Knight->setHog_Rider($item->level); break;
+				case "Valkyrie": $Knight->setValkyrie($item->level); break;
+				case "Golem": $Knight->setGolem($item->level); break;
+				case "Witch": $Knight->setWitch($item->level); break;
+				case "Lava Hound": $Knight->setLava_Hound($item->level); break;
+				case "Bowler": $Knight->setBowler($item->level); break;
 			}
 		}
-		if (isset($json_array['heroes'])) {
-			foreach ($json_array['heroes'] as $item) {
-				switch($item['name']) {
-					case "Barbarian King": $Knight->setBarbarian_King($item['level']); break;
-					case "Archer Queen": $Knight->setArcher_Queen($item['level']); break;
-					case "Grand Warden": $Knight->setGrand_Warden($item['level']); break;
+		if (isset($json_array->heroes)) {
+			foreach ($json_array->heroes as $item) {
+				switch($item->name) {
+					case "Barbarian King": $Knight->setBarbarian_King($item->level); break;
+					case "Archer Queen": $Knight->setArcher_Queen($item->level); break;
+					case "Grand Warden": $Knight->setGrand_Warden($item->level); break;
 				}
 			}
 		}
-		if (isset ($json_array['spells'])) {
-			foreach ($json_array['spells'] as $item) {
-				switch($item['name']) {
-					case "Lightning Spell": $Knight->setLightning_Spell($item['level']); break;
-					case "Healing Spell": $Knight->setHealing_Spell($item['level']); break;
-					case "Rage Spell": $Knight->setRage_Spell($item['level']); break;
-					case "Jump Spell": $Knight->setJump_Spell($item['level']); break;
-					case "Freeze Spell": $Knight->setFreeze_Spell($item['level']); break;
-					case "Clone Spell": $Knight->setClone_Spell($item['level']); break;
-					case "Poison Spell": $Knight->setPoison_Spell($item['level']); break;
-					case "Earthquake Spell": $Knight->setEarthquake_Spell($item['level']); break;
-					case "Haste Spell": $Knight->setHaste_Spell($item['level']); break;
-					case "Skeleton Spell": $Knight->setSkeleton_Spell($item['level']); break;
+		if (isset ($json_array->spells)) {
+			foreach ($json_array->spells as $item) {
+				switch($item->name) {
+					case "Lightning Spell": $Knight->setLightning_Spell($item->level); break;
+					case "Healing Spell": $Knight->setHealing_Spell($item->level); break;
+					case "Rage Spell": $Knight->setRage_Spell($item->level); break;
+					case "Jump Spell": $Knight->setJump_Spell($item->level); break;
+					case "Freeze Spell": $Knight->setFreeze_Spell($item->level); break;
+					case "Clone Spell": $Knight->setClone_Spell($item->level); break;
+					case "Poison Spell": $Knight->setPoison_Spell($item->level); break;
+					case "Earthquake Spell": $Knight->setEarthquake_Spell($item->level); break;
+					case "Haste Spell": $Knight->setHaste_Spell($item->level); break;
+					case "Skeleton Spell": $Knight->setSkeleton_Spell($item->level); break;
 				}
 			}
 		}
@@ -220,7 +219,14 @@ class MemberManager{
 	}
 	// write member into db
 	public function add(Member $Knight) {
-		$qry = $this->_db->prepare("INSERT INTO `coc_weeklydata`(`daterecord`, `player_tag`, `name`, `townHallLevel`, `warStars`, `attackWins`, `defenseWins`, `Barbarian`, `Archer`, `Goblin`, `Giant`, `Wall_Breaker`, `Balloon`, `Wizard`, `Healer`, `Dragon`, `PEKKA`, `Baby_Dragon`, `Miner`, `Minion`, `Hog_Rider`, `Valkyrie`, `Golem`, `Witch`, `Lava_Hound`, `Bowler`, `Barbarian_King`, `Archer_Queen`, `Grand_Warden`, `Lightning_Spell`, `Healing_Spell`, `Rage_Spell`, `Jump_Spell`, `Freeze_Spell`, `Clone_Spell`, `Poison_Spell`, `Earthquake_Spell`, `Haste_Spell`, `Skeleton_Spell`) VALUES (:daterecord, :player_tag, :name, :townHallLevel, :warStars, :attackWins, :defenseWins, :Barbarian, :Archer, :Goblin, :Giant, :Wall_Breaker, :Balloon, :Wizard, :Healer, :Dragon, :PEKKA, :Baby_Dragon, :Miner, :Minion, :Hog_Rider, :Valkyrie, :Golem, :Witch, :Lava_Hound, :Bowler, :Barbarian_King, :Archer_Queen, :Grand_Warden, :Lightning_Spell, :Healing_Spell, :Rage_Spell, :Jump_Spell, :Freeze_Spell, :Clone_Spell, :Poison_Spell, :Earthquake_Spell, :Haste_Spell, :Skeleton_Spell)");
+		$qry = $this->_db->prepare("INSERT INTO `coc_weeklydata`(`daterecord`, `player_tag`, `name`, `townHallLevel`, `warStars`, `attackWins`, ".
+			"`defenseWins`, `Barbarian`, `Archer`, `Goblin`, `Giant`, `Wall_Breaker`, `Balloon`, `Wizard`, `Healer`, `Dragon`, `PEKKA`, `Baby_Dragon`, ".
+			"`Miner`, `Minion`, `Hog_Rider`, `Valkyrie`, `Golem`, `Witch`, `Lava_Hound`, `Bowler`, `Barbarian_King`, `Archer_Queen`, `Grand_Warden`, ".
+			"`Lightning_Spell`, `Healing_Spell`, `Rage_Spell`, `Jump_Spell`, `Freeze_Spell`, `Clone_Spell`, `Poison_Spell`, `Earthquake_Spell`, ".
+			"`Haste_Spell`, `Skeleton_Spell`) VALUES (:daterecord, :player_tag, :name, :townHallLevel, :warStars, :attackWins, :defenseWins, :Barbarian, ".
+			":Archer, :Goblin, :Giant, :Wall_Breaker, :Balloon, :Wizard, :Healer, :Dragon, :PEKKA, :Baby_Dragon, :Miner, :Minion, :Hog_Rider, :Valkyrie, ".
+			":Golem, :Witch, :Lava_Hound, :Bowler, :Barbarian_King, :Archer_Queen, :Grand_Warden, :Lightning_Spell, :Healing_Spell, :Rage_Spell, :Jump_Spell, ".
+			":Freeze_Spell, :Clone_Spell, :Poison_Spell, :Earthquake_Spell, :Haste_Spell, :Skeleton_Spell)");
 		$qry->bindValue(':daterecord', $Knight->daterecord());
 		$qry->bindValue(':player_tag', $Knight->player_tag());
 		$qry->bindValue(':name', $Knight->name());
@@ -267,6 +273,11 @@ class MemberManager{
 			$qry->bindValue(':Healer', 0);
 		} else {
 			$qry->bindValue(':Healer', $Knight->Healer());
+		}
+		if (is_null($Knight->Dragon())) {
+			$qry->bindValue(':Dragon', 0);
+		} else {
+			$qry->bindValue(':Dragon', $Knight->Dragon());
 		}
 		if (is_null($Knight->PEKKA())) {
 			$qry->bindValue(':PEKKA', 0);
@@ -386,6 +397,5 @@ class MemberManager{
 		$qry->execute();
 	}
 }
-
 
 ?>

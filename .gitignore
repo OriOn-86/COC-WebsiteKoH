@@ -2,3 +2,4 @@ include/conf.db.php
 include/conf.api.php
 modules/log.html
 feed.xml
+modules/log.html
