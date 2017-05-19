@@ -39,7 +39,6 @@ if (curl_errno($ch)) {
 	$db->exec($sql);
 } else {
 	$CurrentWar = (json_decode($res));
-	
 	// check last war(id) from db
 	$dbLastWar = $CurrentWarManager->getLastWarFromDb();
 	$WarID = $dbLastWar->id();
@@ -48,22 +47,17 @@ if (curl_errno($ch)) {
 	$FirstEntry = ($dbLastWarOpponent <> $CurrentWarOpponent) ? True : False;
 	// update new warid if FirstEntry
 	if ($FirstEntry) {$WarID += 1;}
-	
 	// check war status
 	$warState = $CurrentWar->state;
-	
 	// split currentwar[] into coc_wars[] and coc_wars_current[]
 	$war = new CurrentWar([]);
 	$Attacks = [];
-	
 	// $war
 	$war->setid($WarID);
 	$war->setState($CurrentWar->state);
-	
 	$endTime = $CurrentWar->endTime;
 	$endTime = substr_replace(substr_replace(substr($endTime, 0, 8), "-", 6, 0), "-", 4, 0);
 	$war->setDatewar($endTime);
-	
 	$war->setTeam_size($CurrentWar->teamSize);
 	$war->setKoh_badgeUrl(shortBadgeUrl($CurrentWar->clan->badgeUrls->medium));
 	$war->setKoh_clanLevel($CurrentWar->clan->clanLevel);
@@ -77,11 +71,9 @@ if (curl_errno($ch)) {
 	$war->setOpponent_stars($CurrentWar->opponent->stars);
 	$war->setOpponent_attacks($CurrentWar->opponent->attacks);
 	$war->setOpponent_destructionPercentage($CurrentWar->opponent->destructionPercentage);
-	
 	// clan members attacks/defenses.
 	foreach ($CurrentWar->clan->members as $Member) {
 		$Attack = new Attacks([]);
-		
 		$Attack->setWarid($WarID);
 		$Attack->setMapRank($Member->mapPosition);
 		$Attack->setPlayer_ID($Member->tag);
@@ -98,13 +90,11 @@ if (curl_errno($ch)) {
 		// atk
 		if (isset($Member->attacks)) {
 			$atkCount = count($Member->attacks);
-			
 			// atk1
 			$position = $AttackManager->getMapPosition($WarID, $Member->attacks[0]->defenderTag);
 			$Attack->setAttack_1_Rank(abs($position));
 			$Attack->setAttack_1_Percentage($Member->attacks[0]->destructionPercentage);
 			$Attack->setAttack_1_Star($Member->attacks[0]->stars);
-			
 			if ($atkCount > 1) {
 				// atk2
 				$position = $AttackManager->getMapPosition($WarID, $Member->attacks[1]->defenderTag);
@@ -115,7 +105,6 @@ if (curl_errno($ch)) {
 		}
 		$Attacks[] = $Attack;
 	}
-	
 	// opponents attacks/defenses.
 	foreach ($CurrentWar->opponent->members as $Member) {
 		$Attack = new Attacks([]);
@@ -135,13 +124,11 @@ if (curl_errno($ch)) {
 		// atk
 		if (isset($Member->attacks)) {
 			$atkCount = count($Member->attacks);
-			
 			// atk1
 			$position = $AttackManager->getMapPosition($WarID, $Member->attacks[0]->defenderTag);
 			$Attack->setAttack_1_Rank(abs($position));
 			$Attack->setAttack_1_Percentage($Member->attacks[0]->destructionPercentage);
 			$Attack->setAttack_1_Star($Member->attacks[0]->stars);
-			
 			if ($atkCount > 1) {
 				// atk2
 				$position = $AttackManager->getMapPosition($WarID, $Member->attacks[1]->defenderTag);
@@ -152,7 +139,6 @@ if (curl_errno($ch)) {
 		}
 		$Attacks[] = $Attack;
 	}
-
 	if ($FirstEntry) {
 		// cleanup target cells from previous war.
 		$sql = "UPDATE `coc_currentwar_strat` SET `target`='' WHERE 1;";
@@ -165,8 +151,12 @@ if (curl_errno($ch)) {
 		$CurrentWarManager->UpdateDb($war);
 		$AttackManager->UpdateWarAttacks($Attacks);
 	}
+	// calculate effective stars (star points earned by player during the war)
+	if ($warState == "WarEnded") {
+		$AttackManager->CalculateEffectiveStar($WarID);
+	}
 	// update log
-	//$sql = "UPDATE `coc_logs` SET `date`=:date, `time`=:time WHERE ..."
+	//$sql = "UPDATE `coc_logs` SET `date`=:date, `time`=:time WHERE `log`='Last currentwar update'"
 }
 
 
