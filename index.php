@@ -13,21 +13,6 @@
 <body>
 	<header>
 	<nav><!-- Menu -->
-		<h1>Clash of Clans</h1>
-		<ul>
-			<li><a href="index.php?op=clan">Accueil</a></li>
-			<li><a href="http://knightsofhell.free.fr/index.php?file=Forum">Forum</a></li>
-			<li>
-				<div class="dropdown"><a href="#">Guerres</a>
-				<div class="dropdown-content">
-					<a href="http://knightsofhell.free.fr/index.php?file=Wars">Historique</a>
-					<a href="index.php?op=CurrentClanWar">Strat GDC</a>
-				</div>
-				</div></li>
-			<li>
-				<div class="dropdown"><a href="#">Clasher</a>
-				<div class="dropdown-content">
-
 <?php
 	// include db.conf and open $db
 	include("include/conf.db.php");
@@ -37,10 +22,42 @@
 		echo 'Connection failed: ' . $e->getMessage();
 	}
 	// op list
-	$ops = ['clan', 'daily', 'logs' ,'playerprofile', 'weekly', 'CurrentClanWar'];
-	// Clasher Menu Items
+	$ops = ['clan', 'daily', 'logs' ,'playerprofile', 'weekly', 'CurrentClanWar', 'WarHistory'];
+	// Menu and War Item list
 	$MenuItems = ['logs' ,'playerprofile', 'weekly'];
+	$WarItems = ['CurrentClanWar', 'WarHistory'];
+	// scan modules
 	$List = scandir("modules");
+?>
+		<h1>Clash of Clans</h1>
+		<ul>
+			<li><a href="index.php?op=clan">Accueil</a></li>
+			<li><a href="http://knightsofhell.free.fr/index.php?file=Forum">Forum</a></li>
+			<li>
+				<div class="dropdown"><a href="#">Guerres</a>
+				<div class="dropdown-content">
+<?php
+	/* // War Menu Items
+	foreach($List as $key => $value) {
+		$test = strpos($value, ".php");
+		if (($test > 0) and $value!="index.php") {
+			$MenuItem = substr($value, 0, -4);
+			if (in_array($MenuItem, $warItems)) {
+				echo " 
+				<a href='index.php?op=$MenuItem'>" . str_replace("_", " ", strtoupper($MenuItem)) . "</a>";
+			}
+		}
+	} */
+?>
+					<a href="index.php?op=WarHistory">Historique</a>
+					<a href="index.php?op=CurrentClanWar">Strat GDC</a>
+				</div>
+				</div></li>
+			<li>
+				<div class="dropdown"><a href="#">Clasher</a>
+				<div class="dropdown-content">
+<?php
+	// Clasher Menu Items
 	foreach($List as $key => $value) {
 		$test = strpos($value, ".php");
 		if (($test > 0) and $value!="index.php") {

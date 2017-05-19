@@ -87,7 +87,7 @@ while ($data = $qry->fetch(PDO::FETCH_ASSOC)) {
 
 // Create table
 echo "
-<h2>Rapport des la Semaine " . date("W", strtotime($daterecord)) . "</h2>
+<h2>Rapport de la Semaine " . date("W", strtotime($daterecord)) . "</h2>
 </section>
 <section>
 <table id='weekly'>

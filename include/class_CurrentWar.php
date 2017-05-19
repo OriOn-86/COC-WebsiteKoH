@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 class CurrentWar {
 	// properties
 	private $_id;

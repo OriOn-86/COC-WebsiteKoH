@@ -1,3 +1,76 @@
+﻿#Wars {
+	width:		80%;
+}
+.WarItem {
+	display: flex;
+	height: 90px;
+	justify-content: space-around;
+	margin-bottom: 20px;
+	border-radius:	20px;
+	text-decoration: none;
+}
+.WarItem:hover {}
+div [data-item='win'] {background-color: rgba(163, 196, 105, 0.8);}
+div [data-item='lose'] {background-color: rgba(184, 106, 106, 0.8);}
+div [data-item='draw'] {background-color: rgba(45, 45, 45, 0.8);}
+.Team {
+	vertical-align: top;
+	width: 30%;
+}
+.Team p {
+	display: inline-block;
+	line-height: 20px;
+	margin: 0;
+	vertical-align: top;}
+.Name {
+	color: rgb(255, 255, 255);
+	font-family: 'Supercell';
+	margin-top: 20px;
+	text-shadow: rgba(0, 0, 0, 0.7) 0px 3px 1px;
+}
+.Score {
+display: flex;
+}
+.Exp{
+	color: rgb(0,0,0);
+	font-family: 'Supercell';
+	font-size: 0.5em;
+}
+.Destruction{
+	color: rgba(97, 97, 97, 0.8);
+	font-family: 'Supercell';
+	font-size: 0.7em;
+	flex-grow: 1;
+	text-align: center;
+}
+.TotalStars {
+	color: rgb(255, 255, 255);
+	font-family: 'Supercell';
+	font-size: 0.7em;
+	height: 20px;
+	text-shadow: rgba(0, 0, 0, 0.7) 0px 0px 2px;
+}
+.TotalStars img {
+	height: 20px;
+	width: 20px;
+}
+.Home {text-align: right;}
+.badges {
+	display:flex;
+	position:relative;
+}
+.versus{
+	position: absolute;
+	z-index: 3;
+	font-family: 'Supercell';
+	color: rgb(255, 255, 184);
+	text-shadow: rgba(0, 0, 0, 0.7) 0px 0px 5px;
+	top: 40px;
+	text-align: center;
+	width: 100%;
+}
+
+
 /* chat */
 .ChatPoper{
 	bottom: 0;
