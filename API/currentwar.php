@@ -146,13 +146,13 @@ if (curl_errno($ch)) {
 		// store new values
 		$CurrentWarManager->AddWarToDb($war);
 		$AttackManager->AddWarAttacks($Attacks);
-	} elseif (($warState == "inWar") OR ($warState == "WarEnded")) {
+	} elseif (($warState == "inWar") OR ($warState == "warEnded")) {
 		// update war and attacks with newer information
 		$CurrentWarManager->UpdateDb($war);
 		$AttackManager->UpdateWarAttacks($Attacks);
 	}
 	// calculate effective stars (star points earned by player during the war)
-	if ($warState == "WarEnded") {
+	if ($warState == "warEnded") {
 		$AttackManager->CalculateEffectiveStar($WarID);
 	}
 	// update log
