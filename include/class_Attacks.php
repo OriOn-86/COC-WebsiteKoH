@@ -131,7 +131,7 @@ class AttackManager {
 				. "WHERE (`warid`=$warid AND `Attack_1_Rank` = $player_position)) "
 				. "UNION "
 				. "(SELECT `Player_ID`, `Attack_2_Order` as `Order`, `Attack_2_Star` as `Star` "
-				. "FROM `coc_wars_detail` "
+				. "FROM `coc_currentwar_detail` "
 				. "WHERE (`warid`=$warid AND `Attack_2_Rank` = $player_position)) "
 				. "ORDER BY `Order` ASC";
 			$qry = $this->_db->query($sql);
