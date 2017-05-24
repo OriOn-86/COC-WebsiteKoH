@@ -2,22 +2,20 @@
 // clan.php
 // clan evo over 30 days
 // clan distrib over leagues
-// db connect
-try {
-        $db = new PDO($dsn, $user, $password);
-} catch(PDOException $e) {
-        echo 'Connection failed: ' . $e->getMessage();
-}
+
 // latest data for display
 $sql = "SELECT `daterecord`, `clanlevel`, `clanmembers`, `clanpoints` "
 	. "FROM `coc_dailyclandata` "
 	. "ORDER BY `daterecord` DESC "
-	. "LIMIT 1;"; $qry = $db->query($sql); while ($row = $qry->fetch(PDO::FETCH_ASSOC)) {
+	. "LIMIT 1;"; 
+$qry = $db->query($sql); 
+while ($row = $qry->fetch(PDO::FETCH_ASSOC)) {
 	$clanLevel = $row['clanlevel'];
 	$nbMembers = $row['clanmembers'];
 	$nbPoints = $row['clanpoints'];
 	$daterecord = $row['daterecord'];
 }
+
 // distrib over leagues.
 $Unranked = 0;
 $Bronze = 0;
@@ -30,7 +28,9 @@ $Titan = 0;
 $Legend = 0;
 $sql = "SELECT `league` "
 	. "FROM `coc_dailydata` "
-	. "WHERE `date`='$daterecord';"; $qry = $db->query($sql); while ($row = $qry->fetch(PDO::FETCH_ASSOC)) {
+	. "WHERE `date`='$daterecord';";
+$qry = $db->query($sql);
+while ($row = $qry->fetch(PDO::FETCH_ASSOC)) {
 	$league = $row['league'];
 	if ($pos = strpos($league, " ")) {
 		$league = substr($league, 0, $pos);
@@ -107,7 +107,9 @@ if ($Legend > 0) {
 $sql = "SELECT `daterecord`, `clanmembers`, `clanpoints` "
 	. "FROM `coc_dailyclandata` "
 	. "ORDER BY `daterecord` DESC "
-	. "LIMIT 30;"; $qry = $db->query($sql); while ($row = $qry->fetch(PDO::FETCH_ASSOC)) {
+	. "LIMIT 30;";
+$qry = $db->query($sql);
+while ($row = $qry->fetch(PDO::FETCH_ASSOC)) {
 	$daterecord = $row['daterecord'];
 	$timestamp = (strtotime($daterecord)+60*60) * 1000;
 	$clanmembers = $row['clanmembers'];
