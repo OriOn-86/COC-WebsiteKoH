@@ -122,7 +122,7 @@ class AttackManager {
 	// calculate Effective_Star
 	public function CalculateEffectiveStar($warid) {
 		// list positions of ennemy players.
-		$sql = "SELECT `MapRank` FROM `coc_wars_detail` WHERE `MapRank` < 0 Order by `MapRank` ASC";
+		$sql = "SELECT `MapRank` FROM `coc_currentwar_detail` WHERE `MapRank` < 0 Order by `MapRank` ASC";
 		$positions = $this->_db->query($sql)->fetchall(PDO::FETCH_COLUMN, 0);
 		foreach ($positions as $player_position) {
 			// list attacks on the player by order ascending
@@ -140,7 +140,7 @@ class AttackManager {
 			while ($data = $qry->fetch(PDO::FETCH_ASSOC)) {
 				$stars = $data['Star'];
 				if ($stars > $bestStars) {
-					$sql = "UPDATE `coc_wars_detail` SET `Effective_Star`=" . $stars - $bestStars . " WHERE `Player_ID`='" . $data['Player_ID'] . "';";
+					$sql = "UPDATE `coc_currentwar_detail` SET `Effective_Star`=" . $stars - $bestStars . " WHERE `Player_ID`='" . $data['Player_ID'] . "';";
 					$this->_db->exec($sql);
 				}
 				// update best stars
