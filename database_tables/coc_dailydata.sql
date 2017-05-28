@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS `coc_dailydata` (
   `expLevel` int(11) NOT NULL,
   `league` varchar(50) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `trophies` int(11) NOT NULL,
+  `versusTrophies` int(11) NOT NULL,
   `clanRank` int(11) NOT NULL,
   `previousClanRank` int(11) NOT NULL,
   `donations` int(11) NOT NULL,

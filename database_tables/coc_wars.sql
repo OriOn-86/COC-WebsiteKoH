@@ -30,18 +30,21 @@ CREATE TABLE IF NOT EXISTS `coc_wars` (
 `id` int(11) NOT NULL,
   `datewar` date NOT NULL,
   `result` varchar(15) NOT NULL,
+  `state` varchar(15) NOT NULL,
   `team_size` int(11) NOT NULL DEFAULT '0',
   `exp_earned` int(11) NOT NULL DEFAULT '0',
+  `koh_badgeUrl` varchar(55) DEFAULT NULL,
   `koh_clanLevel` int(11) NOT NULL DEFAULT '0',
   `koh_stars` int(11) NOT NULL DEFAULT '0',
   `koh_attacks` int(11) NOT NULL DEFAULT '0',
   `koh_destructionPercentage` float NOT NULL DEFAULT '0',
   `opponent_tag` varchar(15) DEFAULT NULL,
   `opponent_name` varchar(50) NOT NULL,
+  `opponent_badgeUrl` varchar(55) DEFAULT NULL,
   `opponent_clanLevel` int(11) NOT NULL DEFAULT '0',
   `opponent_stars` int(11) NOT NULL DEFAULT '0',
-  `opponent_destructionPercentage` float NOT NULL DEFAULT '0',
-  `opponent_attacks` int(11) NOT NULL DEFAULT '0'
+  `opponent_attacks` int(11) DEFAULT '0',
+  `opponent_destructionPercentage` float NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB AUTO_INCREMENT=336 DEFAULT CHARSET=utf8;
 
 --
