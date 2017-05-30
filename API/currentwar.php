@@ -95,12 +95,14 @@ if (curl_errno($ch)) {
 			$Attack->setAttack_1_Rank(abs($position));
 			$Attack->setAttack_1_Percentage($Member->attacks[0]->destructionPercentage);
 			$Attack->setAttack_1_Star($Member->attacks[0]->stars);
+			$Attack->setAttack_1_Order($Member->attacks[0]->order);
 			if ($atkCount > 1) {
 				// atk2
 				$position = $AttackManager->getMapPosition($WarID, $Member->attacks[1]->defenderTag);
 				$Attack->setAttack_2_Rank(abs($position));
 				$Attack->setAttack_2_Percentage($Member->attacks[1]->destructionPercentage);
 				$Attack->setAttack_2_Star($Member->attacks[1]->stars);
+				$Attack->setAttack_2_Order($Member->attacks[1]->order);
 			}
 		}
 		$Attacks[] = $Attack;
