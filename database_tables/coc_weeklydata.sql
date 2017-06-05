@@ -72,6 +72,7 @@ CREATE TABLE IF NOT EXISTS `coc_weeklydata` (
   `Barbarian_King` int(11) NOT NULL DEFAULT '0',
   `Archer_Queen` int(11) NOT NULL DEFAULT '0',
   `Grand_Warden` int(11) NOT NULL DEFAULT '0',
+  `Battle_Machine` int(11) NOT NULL DEFAULT '0',
   `Lightning_Spell` int(11) NOT NULL DEFAULT '0',
   `Healing_Spell` int(11) NOT NULL DEFAULT '0',
   `Rage_Spell` int(11) NOT NULL DEFAULT '0',

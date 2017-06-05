@@ -9,6 +9,11 @@ class Member {
 	private $_warStars;
 	private $_attackWins;
 	private $_defenseWins;
+	private $_builderHallLevel;
+	private $_bestVersusTrophies;
+	private $_versusBattleWins;
+	private $_versusBattleWinCount;
+	
 	private $_Barbarian;
 	private $_Archer;
 	private $_Goblin;
@@ -28,9 +33,22 @@ class Member {
 	private $_Witch;
 	private $_Lava_Hound;
 	private $_Bowler;
+	private $_Raged_Barbarian;
+	private $_Sneaky_Archer;
+	private $_Boxer_Giant;
+	private $_Beta_Minion;
+	private $_Bomber;
+	private $_Baby_Dragon2;
+	private $_Cannon_Cart;
+	private $_Night_Witch;
+	private $_Drop_Ship;
+	private $_Super_PEKKA;
+	
 	private $_Barbarian_King;
 	private $_Archer_Queen;
 	private $_Grand_Warden;
+	private $_Battle_Machine;
+	
 	private $_Lightning_Spell;
 	private $_Healing_Spell;
 	private $_Rage_Spell;
@@ -50,6 +68,11 @@ class Member {
 	public function warStars() {return $this->_warStars;}
 	public function attackWins() {return $this->_attackWins;}
 	public function defenseWins() {return $this->_defenseWins;}
+	public function builderHallLevel() {return $this->_builderHallLevel;}
+	public function bestVersusTrophies() {return $this->_bestVersusTrophies;}
+	public function versusBattleWins() {return $this->_versusBattleWins;}
+	public function versusBattleWinCount() {return $this->_versusBattleWinCount;}
+
 	public function Barbarian() {return $this->_Barbarian;}
 	public function Archer() {return $this->_Archer;}
 	public function Goblin() {return $this->_Goblin;}
@@ -69,9 +92,22 @@ class Member {
 	public function Witch() {return $this->_Witch;}
 	public function Lava_Hound() {return $this->_Lava_Hound;}
 	public function Bowler() {return $this->_Bowler;}
+	public function Raged_Barbarian() {return $this->_Raged_Barbarian;}
+	public function Sneaky_Archer() {return $this->_Sneaky_Archer;}
+	public function Boxer_Giant() {return $this->_Boxer_Giant;}
+	public function Beta_Minion() {return $this->_Beta_Minion;}
+	public function Bomber() {return $this->_Bomber;}
+	public function Baby_Dragon2() {return $this->_Baby_Dragon2;}
+	public function Cannon_Cart() {return $this->_Cannon_Cart;}
+	public function Night_Witch() {return $this->_Night_Witch;}
+	public function Drop_Ship() {return $this->_Drop_Ship;}
+	public function Super_PEKKA() {return $this->_Super_PEKKA;}
+
 	public function Barbarian_King() {return $this->_Barbarian_King;}
 	public function Archer_Queen() {return $this->_Archer_Queen;}
 	public function Grand_Warden() {return $this->_Grand_Warden;}
+	public function Battle_Machine() {return $this->_Battle_Machine;}
+
 	public function Lightning_Spell() {return $this->_Lightning_Spell;}
 	public function Healing_Spell() {return $this->_Healing_Spell;}
 	public function Rage_Spell() {return $this->_Rage_Spell;}
@@ -91,6 +127,11 @@ class Member {
 	public function setwarStars($Number) {if (is_numeric($Number)) {$this->_warStars = $Number;}}
 	public function setattackWins($Number) {if (is_numeric($Number)) {$this->_attackWins = $Number;}}
 	public function setdefenseWins($Number) {if (is_numeric($Number)) {$this->_defenseWins = $Number;}}
+	public function setbuilderHallLevel($Number) {if (is_numeric($Number)) {$this->_builderHallLevel = $Number;}}
+	public function setbestVersusTrophies($Number) {if (is_numeric($Number)) {$this->_bestVersusTrophies = $Number;}}
+	public function setversusBattleWins($Number) {if (is_numeric($Number)) {$this->_versusBattleWins = $Number;}}
+	public function setversusBattleWinCount($Number) {if (is_numeric($Number)) {$this->_versusBattleWinCount = $Number;}}
+
 	public function setBarbarian($Number) {if (is_numeric($Number)) {$this->_Barbarian = $Number;}}
 	public function setArcher($Number) {if (is_numeric($Number)) {$this->_Archer = $Number;}}
 	public function setGoblin($Number) {if (is_numeric($Number)) {$this->_Goblin = $Number;}}
@@ -110,9 +151,22 @@ class Member {
 	public function setWitch($Number) {if (is_numeric($Number)) {$this->_Witch = $Number;}}
 	public function setLava_Hound($Number) {if (is_numeric($Number)) {$this->_Lava_Hound = $Number;}}
 	public function setBowler($Number) {if (is_numeric($Number)) {$this->_Bowler = $Number;}}
+	public function setRaged_Barbarian($Number) {if (is_numeric($Number)) {$this->_Raged_Barbarian = $Number;}}
+	public function setSneaky_Archer($Number) {if (is_numeric($Number)) {$this->_Sneaky_Archer = $Number;}}
+	public function setBoxer_Giant($Number) {if (is_numeric($Number)) {$this->_Boxer_Giant = $Number;}}
+	public function setBeta_Minion($Number) {if (is_numeric($Number)) {$this->_Beta_Minion = $Number;}}
+	public function setBomber($Number) {if (is_numeric($Number)) {$this->_Bomber = $Number;}}
+	public function setBaby_Dragon2($Number) {if (is_numeric($Number)) {$this->_Baby_Dragon2 = $Number;}}
+	public function setCannon_Cart($Number) {if (is_numeric($Number)) {$this->_Cannon_Cart = $Number;}}
+	public function setNight_Witch($Number) {if (is_numeric($Number)) {$this->_Night_Witch = $Number;}}
+	public function setDrop_Ship($Number) {if (is_numeric($Number)) {$this->_Drop_Ship = $Number;}}
+	public function setSuper_PEKKA($Number) {if (is_numeric($Number)) {$this->_Super_PEKKA = $Number;}}
+
 	public function setBarbarian_King($Number) {if (is_numeric($Number)) {$this->_Barbarian_King = $Number;}}
 	public function setArcher_Queen($Number) {if (is_numeric($Number)) {$this->_Archer_Queen = $Number;}}
 	public function setGrand_Warden($Number) {if (is_numeric($Number)) {$this->_Grand_Warden = $Number;}}
+	public function setBattle_Machine($Number) {if (is_numeric($Number)) {$this->_Battle_Machine = $Number;}}
+
 	public function setLightning_Spell($Number) {if (is_numeric($Number)) {$this->_Lightning_Spell = $Number;}}
 	public function setHealing_Spell($Number) {if (is_numeric($Number)) {$this->_Healing_Spell = $Number;}}
 	public function setRage_Spell($Number) {if (is_numeric($Number)) {$this->_Rage_Spell = $Number;}}
@@ -164,6 +218,10 @@ class MemberManager{
 		$Knight->setwarStars($json_array->warStars);
 		$Knight->setattackWins($json_array->attackWins);
 		$Knight->setdefenseWins($json_array->defenseWins);
+		$Knight->setbuilderHallLevel($json_array->builderHallLevel);
+		$Knight->setbestVersusTrophies($json_array->bestVersusTrophies);
+		$Knight->setversusBattleWins($json_array->versusBattleWins);
+		$Knight->setversusBattleWinCount($json_array->versusBattleWinCount);
 		// variable part
 		// since barbarians are available from the begining no set check of the troop array.
 		foreach ($json_array->troops as $item) {
@@ -178,7 +236,14 @@ class MemberManager{
 				case "Healer": $Knight->setHealer($item->level); break;
 				case "Dragon": $Knight->setDragon($item->level); break;
 				case "P.E.K.K.A": $Knight->setPEKKA($item->level); break;
-				case "Baby Dragon": $Knight->setBaby_Dragon($item->level); break;
+				case "Baby Dragon": 
+					if ($item->village == "home") {
+						$Knight->setBaby_Dragon($item->level);
+						break;
+					} else {
+						$Knight->setBaby_Dragon2($item->level);
+						break;
+					}
 				case "Miner": $Knight->setMiner($item->level); break;
 				case "Minion": $Knight->setMinion($item->level); break;
 				case "Hog Rider": $Knight->setHog_Rider($item->level); break;
@@ -187,6 +252,15 @@ class MemberManager{
 				case "Witch": $Knight->setWitch($item->level); break;
 				case "Lava Hound": $Knight->setLava_Hound($item->level); break;
 				case "Bowler": $Knight->setBowler($item->level); break;
+				case "Raged Barbarian": $Knight->setRaged_Barbarian($item->level); break;
+				case "Sneaky Archer": $Knight->setSneaky_Archer($item->level); break;
+				case "Boxer Giant": $Knight->setBoxer_Giant($item->level); break;
+				case "Beta Minion": $Knight->setBeta_Minion($item->level); break;
+				case "Bomber": $Knight->setBomber($item->level); break;
+				case "Cannon Cart": $Knight->setCannon_Cart($item->level); break;
+				case "Night Witch": $Knight->setNight_Witch($item->level); break;
+				case "Drop Ship": $Knight->setDrop_Ship($item->level); break;
+				case "Super P.E.K.K.A": $Knight->setSuper_PEKKA($item->level); break;
 			}
 		}
 		if (isset($json_array->heroes)) {
@@ -195,6 +269,7 @@ class MemberManager{
 					case "Barbarian King": $Knight->setBarbarian_King($item->level); break;
 					case "Archer Queen": $Knight->setArcher_Queen($item->level); break;
 					case "Grand Warden": $Knight->setGrand_Warden($item->level); break;
+					case "Battle Machine": $Knight->setBattle_Machine($item->level); break;
 				}
 			}
 		}
@@ -219,181 +294,61 @@ class MemberManager{
 	}
 	// write member into db
 	public function add(Member $Knight) {
-		$qry = $this->_db->prepare("INSERT INTO `coc_weeklydata`(`daterecord`, `player_tag`, `name`, `townHallLevel`, `warStars`, `attackWins`, ".
-			"`defenseWins`, `Barbarian`, `Archer`, `Goblin`, `Giant`, `Wall_Breaker`, `Balloon`, `Wizard`, `Healer`, `Dragon`, `PEKKA`, `Baby_Dragon`, ".
-			"`Miner`, `Minion`, `Hog_Rider`, `Valkyrie`, `Golem`, `Witch`, `Lava_Hound`, `Bowler`, `Barbarian_King`, `Archer_Queen`, `Grand_Warden`, ".
-			"`Lightning_Spell`, `Healing_Spell`, `Rage_Spell`, `Jump_Spell`, `Freeze_Spell`, `Clone_Spell`, `Poison_Spell`, `Earthquake_Spell`, ".
-			"`Haste_Spell`, `Skeleton_Spell`) VALUES (:daterecord, :player_tag, :name, :townHallLevel, :warStars, :attackWins, :defenseWins, :Barbarian, ".
-			":Archer, :Goblin, :Giant, :Wall_Breaker, :Balloon, :Wizard, :Healer, :Dragon, :PEKKA, :Baby_Dragon, :Miner, :Minion, :Hog_Rider, :Valkyrie, ".
-			":Golem, :Witch, :Lava_Hound, :Bowler, :Barbarian_King, :Archer_Queen, :Grand_Warden, :Lightning_Spell, :Healing_Spell, :Rage_Spell, :Jump_Spell, ".
-			":Freeze_Spell, :Clone_Spell, :Poison_Spell, :Earthquake_Spell, :Haste_Spell, :Skeleton_Spell)");
-		$qry->bindValue(':daterecord', $Knight->daterecord());
-		$qry->bindValue(':player_tag', $Knight->player_tag());
+		$sql = "INSERT INTO `coc_weeklydata` (`daterecord`, `player_tag`, `name`, `townHallLevel`, `warStars`, `attackWins`, `defenseWins`, `builderHallLevel`, `bestVersusTrophies`, `versusBattleWins`, `versusBattleWinCount`, " .
+			"`Barbarian`, `Archer`, `Goblin`, `Giant`, `Wall_Breaker`, `Balloon`, `Wizard`, `Healer`, `Dragon`, `PEKKA`, `Baby_Dragon`, `Miner`, `Minion`, `Hog_Rider`, `Valkyrie`, `Golem`, `Witch`, `Lava_Hound`, `Bowler`, `Raged_Barbarian`, `Sneaky_Archer`, `Boxer_Giant`, `Beta_Minion`, `Bomber`, `Baby_Dragon2`, `Cannon_Cart`, `Night_Witch`, `Drop_Ship`, `Super_PEKKA`, " .
+			"`Barbarian_King`, `Archer_Queen`, `Grand_Warden`, `Battle_Machine`, " .
+			"`Lightning_Spell`, `Healing_Spell`, `Rage_Spell`, `Jump_Spell`, `Freeze_Spell`, `Clone_Spell`, `Poison_Spell`, `Earthquake_Spell`, `Haste_Spell`, `Skeleton_Spell`) " .
+			"VALUES ('" . $Knight->daterecord() . "', '" . $Knight->player_tag() . "' , :name, " .  $Knight->townHallLevel() . ", " . $Knight->warStars() . ", " . $Knight->attackWins() . ", " .
+			$Knight->defenseWins() . ", " . $Knight->builderHallLevel() . ", " . $Knight->bestVersusTrophies() . ", " . $Knight->versusBattleWins() . ", " .  $Knight->versusBattleWinCount() . ", ";
+		// troops
+		is_null($Knight->Barbarian()) ?			$sql .= 0 . ", " : $sql .= $Knight->Barbarian() . ", ";
+		is_null($Knight->Archer()) ?			$sql .= 0 . ", " : $sql .= $Knight->Archer() . ", ";
+		is_null($Knight->Goblin()) ?			$sql .= 0 . ", " : $sql .= $Knight->Goblin() . ", ";
+		is_null($Knight->Giant()) ?				$sql .= 0 . ", " : $sql .= $Knight->Giant() . ", ";
+		is_null($Knight->Wall_Breaker()) ?		$sql .= 0 . ", " : $sql .= $Knight->Wall_Breaker() . ", ";
+		is_null($Knight->Balloon()) ?			$sql .= 0 . ", " : $sql .= $Knight->Balloon() . ", ";
+		is_null($Knight->Wizard()) ?			$sql .= 0 . ", " : $sql .= $Knight->Wizard() . ", ";
+		is_null($Knight->Healer()) ?			$sql .= 0 . ", " : $sql .= $Knight->Healer() . ", ";
+		is_null($Knight->Dragon()) ?			$sql .= 0 . ", " : $sql .= $Knight->Dragon() . ", ";
+		is_null($Knight->PEKKA()) ?				$sql .= 0 . ", " : $sql .= $Knight->PEKKA() . ", ";
+		is_null($Knight->Baby_Dragon()) ?		$sql .= 0 . ", " : $sql .= $Knight->Baby_Dragon() . ", ";
+		is_null($Knight->Miner()) ?				$sql .= 0 . ", " : $sql .= $Knight->Miner() . ", ";
+		is_null($Knight->Minion()) ?			$sql .= 0 . ", " : $sql .= $Knight->Minion() . ", ";
+		is_null($Knight->Hog_Rider()) ?			$sql .= 0 . ", " : $sql .= $Knight->Hog_Rider() . ", ";
+		is_null($Knight->Valkyrie()) ?			$sql .= 0 . ", " : $sql .= $Knight->Valkyrie() . ", ";
+		is_null($Knight->Golem()) ?				$sql .= 0 . ", " : $sql .= $Knight->Golem() . ", ";
+		is_null($Knight->Witch()) ?				$sql .= 0 . ", " : $sql .= $Knight->Witch() . ", ";
+		is_null($Knight->Lava_Hound()) ?		$sql .= 0 . ", " : $sql .= $Knight->Lava_Hound() . ", ";
+		is_null($Knight->Bowler()) ?			$sql .= 0 . ", " : $sql .= $Knight->Bowler() . ", ";
+		is_null($Knight->Raged_Barbarian()) ?	$sql .= 0 . ", " : $sql .= $Knight->Raged_Barbarian() . ", ";
+		is_null($Knight->Sneaky_Archer()) ?		$sql .= 0 . ", " : $sql .= $Knight->Sneaky_Archer() . ", ";
+		is_null($Knight->Boxer_Giant()) ?		$sql .= 0 . ", " : $sql .= $Knight->Boxer_Giant() . ", ";
+		is_null($Knight->Beta_Minion()) ?		$sql .= 0 . ", " : $sql .= $Knight->Beta_Minion() . ", ";
+		is_null($Knight->Bomber()) ?			$sql .= 0 . ", " : $sql .= $Knight->Bomber() . ", ";
+		is_null($Knight->Baby_Dragon2()) ?		$sql .= 0 . ", " : $sql .= $Knight->Baby_Dragon2() . ", ";
+		is_null($Knight->Cannon_Cart()) ?		$sql .= 0 . ", " : $sql .= $Knight->Cannon_Cart() . ", ";
+		is_null($Knight->Night_Witch()) ?		$sql .= 0 . ", " : $sql .= $Knight->Night_Witch() . ", ";
+		is_null($Knight->Drop_Ship()) ?			$sql .= 0 . ", " : $sql .= $Knight->Drop_Ship() . ", ";
+		is_null($Knight->Super_PEKKA()) ?		$sql .= 0 . ", " : $sql .= $Knight->Super_PEKKA() . ", ";
+		// heroes
+		is_null($Knight->Barbarian_King()) ?	$sql .= 0 . ", " : $sql .= $Knight->Barbarian_King() . ", ";
+		is_null($Knight->Archer_Queen()) ?		$sql .= 0 . ", " : $sql .= $Knight->Archer_Queen() . ", ";
+		is_null($Knight->Grand_Warden()) ?		$sql .= 0 . ", " : $sql .= $Knight->Grand_Warden() . ", ";
+		is_null($Knight->Battle_Machine()) ?	$sql .= 0 . ", " : $sql .= $Knight->Battle_Machine() . ", ";
+		// spells
+		is_null($Knight->Lightning_Spell()) ?	$sql .= 0 . ", " : $sql .= $Knight->Lightning_Spell() . ", ";
+		is_null($Knight->Healing_Spell()) ?		$sql .= 0 . ", " : $sql .= $Knight->Healing_Spell() . ", ";
+		is_null($Knight->Rage_Spell()) ?		$sql .= 0 . ", " : $sql .= $Knight->Rage_Spell() . ", ";
+		is_null($Knight->Jump_Spell()) ?		$sql .= 0 . ", " : $sql .= $Knight->Jump_Spell() . ", ";
+		is_null($Knight->Freeze_Spell()) ?		$sql .= 0 . ", " : $sql .= $Knight->Freeze_Spell() . ", ";
+		is_null($Knight->Clone_Spell()) ?		$sql .= 0 . ", " : $sql .= $Knight->Clone_Spell() . ", ";
+		is_null($Knight->Poison_Spell()) ?		$sql .= 0 . ", " : $sql .= $Knight->Poison_Spell() . ", ";
+		is_null($Knight->Earthquake_Spell()) ?	$sql .= 0 . ", " : $sql .= $Knight->Earthquake_Spell() . ", ";
+		is_null($Knight->Haste_Spell()) ?		$sql .= 0 . ", " : $sql .= $Knight->Haste_Spell() . ", ";
+		is_null($Knight->Skeleton_Spell()) ?	$sql .= 0 . ");" : $sql .= $Knight->Skeleton_Spell() . ");";	
+		// query
+		$qry = $this->_db->prepare($sql);
 		$qry->bindValue(':name', $Knight->name());
-		$qry->bindValue(':townHallLevel', $Knight->townHallLevel());
-		$qry->bindValue(':warStars', $Knight->warStars());
-		$qry->bindValue(':attackWins', $Knight->attackWins());
-		$qry->bindValue(':defenseWins', $Knight->defenseWins());
-		if (is_null($Knight->Barbarian())) {
-			$qry->bindValue(':Barbarian', 0);
-		} else {
-			$qry->bindValue(':Barbarian', $Knight->Barbarian());
-		}
-		if (is_null($Knight->Archer())) {
-			$qry->bindValue(':Archer', 0);
-		} else {
-			$qry->bindValue(':Archer', $Knight->Archer());
-		}
-		if (is_null($Knight->Goblin())) {
-			$qry->bindValue(':Goblin', 0);
-		} else {
-			$qry->bindValue(':Goblin', $Knight->Goblin());
-		}
-		if (is_null($Knight->Giant())) {
-			$qry->bindValue(':Giant', 0);
-		} else {
-			$qry->bindValue(':Giant', $Knight->Giant());
-		}
-		if (is_null($Knight->Wall_Breaker())) {
-			$qry->bindValue(':Wall_Breaker', 0);
-		} else {
-			$qry->bindValue(':Wall_Breaker', $Knight->Wall_Breaker());
-		}
-		if (is_null($Knight->Balloon())) {
-			$qry->bindValue(':Balloon', 0);
-		} else {
-			$qry->bindValue(':Balloon', $Knight->Balloon());
-		}
-		if (is_null($Knight->Wizard())) {
-			$qry->bindValue(':Wizard', 0);
-		} else {
-			$qry->bindValue(':Wizard', $Knight->Wizard());
-		}
-		if (is_null($Knight->Healer())) {
-			$qry->bindValue(':Healer', 0);
-		} else {
-			$qry->bindValue(':Healer', $Knight->Healer());
-		}
-		if (is_null($Knight->Dragon())) {
-			$qry->bindValue(':Dragon', 0);
-		} else {
-			$qry->bindValue(':Dragon', $Knight->Dragon());
-		}
-		if (is_null($Knight->PEKKA())) {
-			$qry->bindValue(':PEKKA', 0);
-		} else {
-			$qry->bindValue(':PEKKA', $Knight->PEKKA());
-		}
-		if (is_null($Knight->Baby_Dragon())) {
-			$qry->bindValue(':Baby_Dragon', 0);
-		} else {
-			$qry->bindValue(':Baby_Dragon', $Knight->Baby_Dragon());
-		}
-		if (is_null($Knight->Miner())) {
-			$qry->bindValue(':Miner', 0);
-		} else {
-			$qry->bindValue(':Miner', $Knight->Miner());
-		}
-		if (is_null($Knight->Minion())) {
-			$qry->bindValue(':Minion', 0);
-		} else {
-			$qry->bindValue(':Minion', $Knight->Minion());
-		}
-		if (is_null($Knight->Hog_Rider())) {
-			$qry->bindValue(':Hog_Rider', 0);
-		} else {
-			$qry->bindValue(':Hog_Rider', $Knight->Hog_Rider());
-		}
-		if (is_null($Knight->Valkyrie())) {
-			$qry->bindValue(':Valkyrie', 0);
-		} else {
-			$qry->bindValue(':Valkyrie', $Knight->Valkyrie());
-		}
-		if (is_null($Knight->Golem())) {
-			$qry->bindValue(':Golem', 0);
-		} else {
-			$qry->bindValue(':Golem', $Knight->Golem());
-		}
-		if (is_null($Knight->Witch())) {
-			$qry->bindValue(':Witch', 0);
-		} else {
-			$qry->bindValue(':Witch', $Knight->Witch());
-		}
-		if (is_null($Knight->Lava_Hound())) {
-			$qry->bindValue(':Lava_Hound', 0);
-		} else {
-			$qry->bindValue(':Lava_Hound', $Knight->Lava_Hound());
-		}
-		if (is_null($Knight->Bowler())) {
-			$qry->bindValue(':Bowler', 0);
-		} else {
-			$qry->bindValue(':Bowler', $Knight->Bowler());
-		}
-		if (is_null($Knight->Barbarian_King())) {
-			$qry->bindValue(':Barbarian_King', 0);
-		} else {
-			$qry->bindValue(':Barbarian_King', $Knight->Barbarian_King());
-		}
-		if (is_null($Knight->Archer_Queen())) {
-			$qry->bindValue(':Archer_Queen', 0);
-		} else {
-			$qry->bindValue(':Archer_Queen', $Knight->Archer_Queen());
-		}
-		if (is_null($Knight->Grand_Warden())) {
-			$qry->bindValue(':Grand_Warden', 0);
-		} else {
-			$qry->bindValue(':Grand_Warden', $Knight->Grand_Warden());
-		}
-		if (is_null($Knight->Lightning_Spell())) {
-			$qry->bindValue(':Lightning_Spell', 0);
-		} else {
-			$qry->bindValue(':Lightning_Spell', $Knight->Lightning_Spell());
-		}
-		if (is_null($Knight->Healing_Spell())) {
-			$qry->bindValue(':Healing_Spell', 0);
-		} else {
-			$qry->bindValue(':Healing_Spell', $Knight->Healing_Spell());
-		}
-		if (is_null($Knight->Rage_Spell())) {
-			$qry->bindValue(':Rage_Spell', 0);
-		} else {
-			$qry->bindValue(':Rage_Spell', $Knight->Rage_Spell());
-		}
-		if (is_null($Knight->Jump_Spell())) {
-			$qry->bindValue(':Jump_Spell', 0);
-		} else {
-			$qry->bindValue(':Jump_Spell', $Knight->Jump_Spell());
-		}
-		if (is_null($Knight->Freeze_Spell())) {
-			$qry->bindValue(':Freeze_Spell', 0);
-		} else {
-			$qry->bindValue(':Freeze_Spell', $Knight->Freeze_Spell());
-		}
-		if (is_null($Knight->Clone_Spell())) {
-			$qry->bindValue(':Clone_Spell', 0);
-		} else {
-			$qry->bindValue(':Clone_Spell', $Knight->Clone_Spell());
-		}
-		if (is_null($Knight->Poison_Spell())) {
-			$qry->bindValue(':Poison_Spell', 0);
-		} else {
-			$qry->bindValue(':Poison_Spell', $Knight->Poison_Spell());
-		}
-		if (is_null($Knight->Earthquake_Spell())) {
-			$qry->bindValue(':Earthquake_Spell', 0);
-		} else {
-			$qry->bindValue(':Earthquake_Spell', $Knight->Earthquake_Spell());
-		}
-		if (is_null($Knight->Haste_Spell())) {
-			$qry->bindValue(':Haste_Spell', 0);
-		} else {
-			$qry->bindValue(':Haste_Spell', $Knight->Haste_Spell());
-		}
-		if (is_null($Knight->Skeleton_Spell())) {
-			$qry->bindValue(':Skeleton_Spell', 0);
-		} else {
-			$qry->bindValue(':Skeleton_Spell', $Knight->Skeleton_Spell());
-		}
 		$qry->execute();
 	}
 }

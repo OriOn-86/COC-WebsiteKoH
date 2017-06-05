@@ -34,12 +34,14 @@ function dailyRecord () {
 		$clanLevel = $ClanData->clanLevel;
 		$clanPoints = $ClanData->clanPoints;
 		$clanMembers = $ClanData->members;
+		$clanVersusPoints = $ClanData->clanVersusPoints;
 		$id = [];
 		$name = [];
 		$role = [];
 		$expLevel = [];
 		$league = [];
 		$trophies = [];
+		$versusTrophies = [];
 		$clanRank = [];
 		$donations = [];
 		$donationsReceived = [];
@@ -51,16 +53,17 @@ function dailyRecord () {
 			$expLevel[] = $ClanData->memberList[$i]->expLevel;
 			$league[] = $ClanData->memberList[$i]->league->name;
 			$trophies[] = $ClanData->memberList[$i]->trophies;
+			$versusTrophies[] = $ClanData->memberList[$i]->versusTrophies;
 			$clanRank[] = $ClanData->memberList[$i]->clanRank;
 			$donations[] = $ClanData->memberList[$i]->donations;
 			$donationsReceived[] = $ClanData->memberList[$i]->donationsReceived;
 		}
 		// log Clan data
-		$sql = 'INSERT INTO `coc_dailyclandata` (`daterecord`, `clanlevel`, `clanmembers`, `clanpoints`) VALUES ("' . $daterecord . '", ' . $clanLevel . ', ' . $clanMembers . ', ' . $clanPoints . '); ';
+		$sql = 'INSERT INTO `coc_dailyclandata` (`daterecord`, `clanlevel`, `clanmembers`, `clanpoints`, `clanVersusPoints`) VALUES ("' . $daterecord . '", ' . $clanLevel . ', ' . $clanMembers . ', ' . $clanPoints . ', ' . $clanVersusPoints . '); ';
 		// log members data
 		foreach($name as $a => $b) {
-			$sql = $sql . 'INSERT INTO `coc_dailydata` (`date`, `player_tag`, `name`, `role`, `expLevel`, `league`, `trophies`, `clanRank`, `donations`, `donationsReceived`) ' .
-					'VALUES ("' . $daterecord . '", "' . $id[$a] . '", "' . $name[$a] . '", "' . $role[$a] . '", ' . $expLevel[$a] . ', "' . $league[$a] . '", ' . $trophies[$a] . ', ' . $clanRank[$a] . ', ' .
+			$sql = $sql . 'INSERT INTO `coc_dailydata` (`date`, `player_tag`, `name`, `role`, `expLevel`, `league`, `trophies`, `versusTrophies`, `clanRank`, `donations`, `donationsReceived`) ' .
+					'VALUES ("' . $daterecord . '", "' . $id[$a] . '", "' . $name[$a] . '", "' . $role[$a] . '", ' . $expLevel[$a] . ', "' . $league[$a] . '", ' . $trophies[$a] . ', ' . $versusTrophies[$a] . ', ' . $clanRank[$a] . ', ' .
 					$donations[$a] . ', ' . $donationsReceived[$a] . '); ';
 		}
 		// log entry
@@ -74,6 +77,9 @@ function dailyRecord () {
 function minimaChecks($MemberTag) {
 	// Check if member fullfills clan donations requirements
 	// initial values
+	global $db, $daterecord;
+	$MinThreshold = 100; // parameter adjustable in the future.
+	
 	$date = (new DateTime($daterecord))->sub(new DateInterval('P7D'));
 	$D_Count = 0;
 	$R_Count = 0;
@@ -151,8 +157,6 @@ function newWarCheck() {
 		$APILastWar = $WarManager->getWarFromJSON($json_array);
 		$DBLastWar = $WarManager->getLastWarFromDb();
 		if ($APILastWar->datewar() != $DBLastWar->datewar()) {
-			echo "saving war";
-			var_dump($APILastWar);
 			$WarManager->addWarToDb($APILastWar);
 		}
 	}
@@ -193,7 +197,7 @@ newWarCheck();
 Switch (date("w", strtotime($daterecord))) {
 	Case 1: // Mondays: check for new seasons and screen new members
 		// increase week counter of the season.
-		$sql = "SELECT `id`, `season_week` FROM `coc_seasons` ORDER BY `season_start` DESC LIMIT 1; ";
+		/* $sql = "SELECT `id`, `season_week` FROM `coc_seasons` ORDER BY `season_start` DESC LIMIT 1; ";
 		$qry = $db->exec($sql);
 		while ($row = $qry->fetch(PDO::FETCH_ASSOC)) {
 			$idSeason = $row['id'];
@@ -208,7 +212,7 @@ Switch (date("w", strtotime($daterecord))) {
 			$sql .= "INSERT INTO `coc_logs`(`date`, `log`) VALUES ('$daterecord', 'New Season'); ";
 		}
 		$db->exec($sql);
-		sleep(1); // cooldown
+		sleep(1); // cooldown */
 		
 		ScreenNewMembers($activeMembers);
 		break;
