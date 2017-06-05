@@ -79,12 +79,16 @@ class WarManager {
 	public function __construct ($db) {$this->_db = $db;}
 
 	public function addWarToDb(War $War) {
-		$qry = $this->_db->prepare("INSERT INTO `coc_wars` (`datewar`, `result`, `state`, `team_size`, `exp_earned`, `koh_badgeUrl`, `koh_clanLevel`, `koh_stars`, `koh_attacks`, `koh_destructionPercentage`, `opponent_tag`, `opponent_name`, `opponent_badgeUrl`, `opponent_clanLevel`, `opponent_stars`, `opponent_attacks`, `opponent_destructionPercentage`) VALUES (:datewar, :result, :team_size, :exp_earned, :koh_clanLevel, :koh_stars, :koh_attacks, :koh_destructionPercentage, :opponent_tag, :opponent_name, :opponent_clanLevel, :opponent_stars, :opponent_attacks, :opponent_destructionPercentage);");
+		$result = $War->result();
+		$exp_earned = $War->exp_earned();
+		$opponent_attacks = $War->opponent_attacks();
+
+		$qry = $this->_db->prepare("INSERT INTO `coc_wars` (`datewar`, `result`, `state`, `team_size`, `exp_earned`, `koh_badgeUrl`, `koh_clanLevel`, `koh_stars`, `koh_attacks`, `koh_destructionPercentage`, `opponent_tag`, `opponent_name`, `opponent_badgeUrl`, `opponent_clanLevel`, `opponent_stars`, `opponent_attacks`, `opponent_destructionPercentage`) VALUES (:datewar, :result, :state, :team_size, :exp_earned, :koh_badgeUrl,  :koh_clanLevel, :koh_stars, :koh_attacks, :koh_destructionPercentage, :opponent_tag, :opponent_name, :opponent_badgeUrl, :opponent_clanLevel, :opponent_stars, :opponent_attacks, :opponent_destructionPercentage);");
 		$qry->bindValue(':datewar', $War->datewar());
-		$qry->bindValue(':result', Nz($War->result(), ""));
+		$qry->bindValue(':result', isset($result) ? $result : "");
 		$qry->bindValue(':state', $War->state());
 		$qry->bindValue(':team_size', $War->team_size());
-		$qry->bindValue(':exp_earned', Nz($War->exp_earned(), 0));
+		$qry->bindValue(':exp_earned', isset($exp_earned) ? $exp_earned : "");
 		$qry->bindValue(':koh_badgeUrl', $War->koh_badgeUrl());
 		$qry->bindValue(':koh_clanLevel', $War->koh_clanLevel());
 		$qry->bindValue(':koh_stars', $War->koh_stars());
@@ -95,7 +99,7 @@ class WarManager {
 		$qry->bindValue(':opponent_badgeUrl', $War->opponent_badgeUrl());
 		$qry->bindValue(':opponent_clanLevel', $War->opponent_clanLevel());
 		$qry->bindValue(':opponent_stars', $War->opponent_stars());
-		$qry->bindValue(':opponent_attacks', Nz($War->opponent_attacks(), 0));
+		$qry->bindValue(':opponent_attacks', isset($opponent_attacks) ? $opponent_attacks : 0);
 		$qry->bindValue(':opponent_destructionPercentage', $War->opponent_destructionPercentage());
 		$qry->execute();
 	}
@@ -150,7 +154,7 @@ class WarManager {
 		$LastWar->setOpponent_name($json_array->items[0]->opponent->name);
 		$LastWar->setOpponent_clanLevel($json_array->items[0]->opponent->clanLevel);
 		$LastWar->setOpponent_stars($json_array->items[0]->opponent->stars);
-		$LastWar->setOpponent_attacks($json_array->items[0]->opponent->attacks);
+		//$LastWar->setOpponent_attacks($json_array->items[0]->opponent->attacks);
 		$LastWar->setOpponent_destructionPercentage($json_array->items[0]->opponent->destructionPercentage);
 		return $LastWar;
 	}
