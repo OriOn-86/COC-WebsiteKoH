@@ -31,7 +31,8 @@ CREATE TABLE IF NOT EXISTS `coc_dailyclandata` (
   `daterecord` date NOT NULL,
   `clanlevel` int(11) NOT NULL,
   `clanmembers` int(11) NOT NULL,
-  `clanpoints` int(11) NOT NULL
+  `clanpoints` int(11) NOT NULL,
+  `clanVersusPoints` int(11) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=189 DEFAULT CHARSET=utf8;
 
 --
