@@ -103,9 +103,15 @@ echo "
 	</div>
 	
 	<div class='CWHrow'>
-		<div id='ClanScore'>" . Nz($currentWar->koh_stars(), 0) . " / " . $currentWar->team_size() * 3 . " Stars</div>
+		<div class='StarScore'><img src='images/starScore.png' /></div>
+		<div class='Scores'>
+			<div style='width:" . Nz($currentWar->koh_stars(), 0)*100/($currentWar->team_size() * 3) . "%'>" . Nz($currentWar->koh_stars(), 0) . " / " . $currentWar->team_size() * 3 . "</div>
+		</div>
 		<div class='CWHRmiddle' id='RemainingTime'>" . "</div>
-		<div id='OpponentScore'>" . Nz($currentWar->opponent_stars(), 0) . " / " . $currentWar->team_size() * 3 . " Stars</div>
+		<div class='Scores'>
+			<div class='OpponentScore' style='width:" . Nz($currentWar->opponent_stars(), 0)*100/($currentWar->team_size() * 3) . "%'>" . Nz($currentWar->opponent_stars(), 0) . " / " . $currentWar->team_size() * 3 . "</div>
+		</div>
+		<div class='OpponentScore StarScore'><img src='images/starScore.png' /></div>
 	</div>
 	
 	<div class='CWHrow'>

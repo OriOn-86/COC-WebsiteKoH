@@ -720,7 +720,40 @@ div[data-ratio='good'] {
 	text-align:					center;
 	text-shadow: 				rgba(141, 65, 19, 0.31) 2px 3px 0px;
 }
-.CWHRmiddle{
+.Scores {
+	background-color: rgba(220, 220, 220, 0.9);
+	border-radius:	8px;
+	display: inline-block;
+	margin-top:	10px;
+	width:	90%;
+}
+.StarScore {
+	width: 10%;
+	margin-top:	10px;
+}
+.StarScore img{
+	margin-top: -20px;
+	width: 	60px;
+	height: 60px;
+	z-index:2;
+	position: absolute;
+	display: inline-block;
+}
+.Scores div {
+	background-color: rgb(232, 208, 100);
+	border-radius:	8px;
+	display: inline-block;
+	padding-bottom: 5px;
+	padding-top: 5px;
+	text-align: center;
+}
+.OpponentScore {
+	float: right;
+}
+ .OpponentScore img {
+	margin-left: -20px;
+ }
+.CWHRmiddle {
 	width:						236px;
 	text-align:					center;
 }
