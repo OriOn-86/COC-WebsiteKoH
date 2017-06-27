@@ -613,6 +613,8 @@ div [data-position='new'] {
 	font-family:				'Supercell';
 	margin:						0px;
 	vertical-align:				top;
+	max-width:					190px;
+	white-space:				nowrap;
 }
 .playerName img {
 	display:					inline-block;
@@ -753,7 +755,7 @@ div[data-ratio='good'] {
 .OpponentScore {
 	float: right;
 }
- .OpponentScore img {
+.OpponentScore img {
 	margin-left: -20px;
  }
 .CWHRmiddle {

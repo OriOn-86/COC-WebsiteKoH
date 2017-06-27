@@ -4,7 +4,7 @@
 	<meta content="text/html;charset=utf-8" http-equiv="Content-Type"></meta>
 	<meta content="utf-8" http-equiv="encoding"></meta>
 	<link rel="stylesheet" href="include/style.css"></link>
-	<title>Clash of Clans</title>
+	<title>Knights of Hell</title>
 	<script src="js/highcharts.js"></script>
 	<link rel="icon" type="image/png" href="images/favicon.png" />
 	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" /> 
