@@ -1,5 +1,5 @@
-include/conf.db.php
 include/conf.api.php
+include/conf.db.php
+include/conf.mail.php
 modules/log.html
 feed.xml
-modules/log.html
