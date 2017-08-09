@@ -10,7 +10,7 @@ class Feed {
 	public function title() {return $this->_title;}
 	public function guid() {return $this->_guid;}
 	public function description() {return $this->_description;}
-	public function pubDate{} {return $this->_pubDate;}
+	public function pubDate() {return $this->_pubDate;}
 	
 	public function settitle() {if (is_string($String)) {$this->_title = $String;}}
 	public function setguid() {if (is_numeric($Number)) {$this->_guid = $Number;}}
