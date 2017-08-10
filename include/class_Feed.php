@@ -38,6 +38,7 @@ class FeedManager {
 		$rssFile = fopen("RSS/currentwar.xml", "w");
 		
 		$xml  = '<?xml version="1.0" encoding="utf-8"?>' . "\n";
+		$xml .= '<!DOCTYPE xml>' . "\n";
 		$xml .= '<rss version="2.0">' . "\n";
 		$xml .= '<channel>' . "\n";
 		$xml .= '<title>' . $Channel["title"] . '</title>' . "\n";
