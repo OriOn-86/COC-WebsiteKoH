@@ -12,7 +12,7 @@
 .WarItem:hover {}
 div [data-item='win'] {background-color: rgba(163, 196, 105, 0.8);}
 div [data-item='lose'] {background-color: rgba(184, 106, 106, 0.8);}
-div [data-item='draw'] {background-color: rgba(45, 45, 45, 0.8);}
+div [data-item='tie'] {background-color: rgba(45, 45, 45, 0.8);}
 .Team {
 	vertical-align: top;
 	width: 30%;
@@ -198,10 +198,11 @@ article{
 	background-repeat: repeat-y;
 	width: 1119px;
 	position: relative;
-	overflow: auto;
+	/*overflow: auto;*/
 	min-height: 1066px;
 	margin-right: auto;
 	margin-left: auto;
+	margin-top: -50px;
 }
 /* Fonts */
 @font-face {
@@ -508,6 +509,45 @@ div [data-item='normal'] p {
 div [data-item='max'] p {
 	background-color:			rgb(255, 220, 68);
 }
+
+.banner{
+	text-align:					center;
+}
+.HalfHighChartsGraph{
+	width:						50%;
+}
+.warHistory {
+	width:						80%;
+}
+.war {
+	border-bottom-left-radius:	10px;
+	border-bottom-right-radius:	10px;
+	border-top-left-radius:		10px;
+	border-top-right-radius:	10px;
+	color:						black;
+	display:					flex;
+	line-height:				36px;
+	margin-top:					10px;
+	padding-left:				10px;
+	padding-top:				10px;
+	padding-right:				10px;
+	text-align:					center;
+	text-decoration: 			none;
+}
+.war:hover{}
+.war div{
+	margin-left:				3px;
+	margin-right:				3px;
+}
+.vertical-separator {
+	border-left-style:			solid;
+	border-left-width:			1px;
+	line-height:				26px;
+	margin-bottom:				10px;
+	margin-left:				0px !important;
+	margin-right:				0px !important;
+}
+
 /* Clan data*/
 .clan_detail {
 	display: 					inline-block;
