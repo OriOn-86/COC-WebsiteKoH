@@ -1,4 +1,24 @@
 <?php
+// functions
+/**
+ * AtkResult displays attack's result
+ * @param integer $Stars number to translate into images
+ * @param integer $Percentage destruction percentage
+ * @return string
+ */
+function AtkResult ($Stars, $Percentage) {
+	$strResult = "	<div class='stars'>";
+	for ($Star = 1; $Star <= 3; $Star++) {
+		if ($Star <= $Stars) {
+			$strResult .= "<img class='star' src='images/starON.png' />";
+		} else {
+			$strResult .= "<img class='star' src='images/starOFF.png' />";
+		}
+	}
+	$strResult .= "</div><div class='percent'><p>" . $Percentage . " %</p></div>";
+	return $strResult;
+}
+
 // select player form
 echo "
 	<form method='post' action='index.php?op=playerprofile'>
@@ -66,27 +86,99 @@ if (isset($_POST['PlayerTag']) or isset($_GET['PlayerTag'])) {
 				if ($row['trophies'] < $TLLimit) { $TLLimit = $row['trophies']; }
 			}
 		}
-		/* // War part I
-		$sth = $db->prepare('SELECT `Player_coc_ID`, `War_Count`, `Last_War_Date` FROM `coc_members` WHERE `Player_Name`= :name');
-		$sth->execute(array(':name' => $PlayerName));
-		while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-			$LastWar = $row['Last_War_Date'];
-			$NbWars = $row['War_Count'];
-			$COCID = $row['Player_coc_ID'];
-		}
-		// War part II
-		$sth = $db->prepare('SELECT * FROM `coc_match_detail` WHERE `Player_ID` = :cocID');
-		$sth->execute(array(':cocID' => $COCID));
-		$AVGDest = 0;
-		$AVGStar = 0;
-		$NBMissedAtk = 0;
-		$DeltaAtk = array();
 		
-		while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-			if ($row['Attack_1_Rank'] <> 0) {
-				
-			} else { $NBMissedAtk += 1; }
-		} */
+		// Wars
+		include("include/class_Attacks.php");
+		include("include/class_War.php");
+		$AttackManager = new AttackManager($db);
+		$WarManager = new WarManager($db);
+		
+		// last war from player
+		$LastWarID = $AttackManager->getLastWarOfPlayer("#" . $PlayerTag);
+		$LastWar = ($LastWarID != -1) ? $WarManager->getWarFromID($LastWarID)->datewar() : "0000-00-00";
+		
+		// wars statistics
+		$LastWars = [];
+		$PlayerWars = [];
+		$DateLatestWar = (new DateTime())->sub(new DateInterval('P30D'));
+		$Specifics = ["filter"=>"datewar > '" . $DateLatestWar->format("Y-m-d") . "'", "orderBy"=> "datewar DESC"];
+		$LastWars = $WarManager->getWarsBySpecific($Specifics);
+		
+		foreach ($LastWars as $War) {
+			$Attacks = $AttackManager->getPlayerAttacksDuringWar("#" . $PlayerTag, $War->id());
+			if ($Attacks !== NULL) {
+				$PlayerWars[] = $Attacks;
+			}
+		}
+		
+		$NbWars = count($PlayerWars);
+		$AVGDest = 0.0;
+		$AVGStar = 0.0;
+		$NBMissedAtk = 0;
+		
+		if ($NbWars > 0) {
+			$Deltas = [];
+			$Stars = [];
+			$data2 = [];
+			$x = 0;
+			foreach ($PlayerWars as $PlayerWar) {
+				if ($PlayerWar->Attack_1_Rank() > 0) {
+					$AVGDest += $PlayerWar->Attack_1_Percentage();
+					$AVGStar += $PlayerWar->Attack_1_Star();
+					// graph data
+					$Deltas[$x] = $PlayerWar->MapRank() - $PlayerWar->Attack_1_Rank();
+					$Stars[$x] = intval($PlayerWar->Attack_1_Star());
+					$data2[$x] = array($Deltas[$x], $Stars[$x]);
+					$x++;
+				} else {
+					$NBMissedAtk += 1;
+				}
+				if ($PlayerWar->Attack_2_Rank() > 0) {
+					$AVGDest += $PlayerWar->Attack_2_Percentage();
+					$AVGStar += $PlayerWar->Attack_2_Star();
+					// graph data
+					$Deltas[$x] = $PlayerWar->MapRank() - $PlayerWar->Attack_2_Rank();
+					$Stars[$x] = intval($PlayerWar->Attack_2_Star());
+					$data2[$x] = array($Deltas[$x], $Stars[$x]);
+					$x++;
+				} else {
+					$NBMissedAtk += 1;
+				}
+			}
+			$AVGDest /= ($NbWars * 2 - $NBMissedAtk);
+			$AVGStar /= ($NbWars * 2 - $NBMissedAtk);
+		
+			// graph: stars / delta pos
+			array_multisort($Deltas, SORT_ASC, $Stars, SORT_DESC, $data2);
+			$GraphDeltas = [];
+			$GraphStars = [];
+			$xMax = count($data2);
+			
+			$y = 1;
+			$GraphDeltas[0] = $data2[0][0];
+			$GraphStars[0] = $data2[0][1];
+			for ($x=1; $x<$xMax; $x++) {
+				if ($data2[$x][0] === end($GraphDeltas)) {
+					$pos = count($GraphDeltas) - 1;
+					$GraphStars[$pos] = ($GraphStars[$pos] * $y + $data2[$x][1]) / ($y + 1);
+					$y++;
+				} else {
+					$y = 1;
+					while ((end($GraphDeltas) + 1) < $data2[$x][0]) {
+						$GraphDeltas[] = end($GraphDeltas) + 1;
+						$GraphStars[] = -1;
+					}
+					$GraphDeltas[] = $data2[$x][0];
+					$GraphStars[] = $data2[$x][1];
+				}
+			}
+			
+			$data2 = [];
+			for ($x=0; $x < count($GraphDeltas); $x++)  {
+				$data2[] = "[" . $GraphDeltas[$x] . ", " . $GraphStars[$x] ."]";
+			}
+		}
+		
 	} catch(PDOException $e) {
 		echo 'Connection failed: ' . $e->getMessage();
 	}
@@ -167,107 +259,118 @@ if (isset($_POST['PlayerTag']) or isset($_GET['PlayerTag'])) {
 	";
 	// GENERAL STATS
 	echo "<section>
-	<table width='910px'>
-	<!-- General stats -->
-	<tr>
-		<td colspan='3'><img src='images/general.jpg'/></td>
-	</tr>
-	<tr>
-		<td>XP Level: $ExpLevel</td>
-		<td rowspan='8' colspan='2' id='GraphTrophy' width='70%'></td>
-	</tr>
-	<tr>
-		<td>Position in the clan: $clanRank</td>
-	</tr>
-	<tr>
-		<td><h3>Troops</h3></td>
-	</tr>
-	<tr>
-		<td>Donated: $Donated</td>
-	</tr>
-	<tr>
-		<td>Received: $Received</td>
-	</tr>
-	<tr>
-		<td><h3>Trophy range</h3></td>
-	</tr>
-	<tr>
-		<td>Upper limit: $TULimit</td>
-	</tr>
-	<tr>
-		<td>Lower limit: $TLLimit</td>
-	</tr>
-	<tr>
-	</table>
+	<div class='General'>
+		<div class='banner'><img src='images/general.jpg'/></div>
+		<div class='FullHighChartsGraph' id='GraphTrophy'></div>
+	</div>
+	<script>
+		var chart1 = new Highcharts.Chart({
+			title: {text: ''},
+			chart: {backgroundColor: '', renderTo: 'GraphTrophy'},
+			xAxis: {type: 'datetime', tickInterval: 24 * 36e5},
+			yAxis: {title: {text: 'Trophies'}},
+			legend: {enabled: false},
+			series: [{name: 'Trophies', data: [", join($data1, ',') ,"]}]
+		});
+	</script>
 	</section>
 	<section>
-	<table width='910px'>
-	<tr>
-		<th>Date</th>
-		<th>Level</th>
-		<th>League</th>
-		<th>Rank</th>
-		<th>donations</th>
-		<th>Received</th>
-	</tr>";
-	// last 50 daily records
-	$sth = $db->prepare('SELECT `date`, `expLevel`, `league`, `clanRank`, `donations`, `donationsReceived`  FROM `coc_dailydata` WHERE name= :name ORDER BY `date` DESC LIMIT 0, 50');
-	$sth->execute(array(':name' => $PlayerName));
-	while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+		<div id='Daily'>";
+	require 'include/class_daily.php';
+	$dailyItemManager = new DailyManager($db);
+	// collect up to the 50 latest records from the current member
+	$dailyItems = $dailyItemManager->getPlayerData($PlayerTag, 50);
+	
+	foreach ($dailyItems as $row) {
 		echo "
-				<tr>
-					<td>" . $row['date'] . "</td>
-					<td>" . $row['expLevel'] . "</td>
-					<td>" . $row['league'] . "</td>
-					<td>" . $row['clanRank'] . "</td>
-					<td>" . $row['donations'] . "</td>
-					<td>" . $row['donationsReceived'] . "</td>
-				</tr>";
+		<div class='memberList'>
+			<div class='daterecord'>" . $row->date() . "</div>
+			<div class='league'><img src='images/leagues/" . str_replace(' ', '_', $row->league()) . "-S.png' /></div>
+			<div class='level'>" . $row->expLevel() . "</div>
+			<div class='PlayerName'><p>" . $row->name() . "</p></div>
+			<div class='position'>" . $row->clanRank() . "</div>
+			<div class='trophies'><p>" . $row->trophies() . "</p><img src='images/trophies.png' /></div>
+			<div class='trophies'><p>" . $row->versusTrophies(). "</p><img src='images/versusTrophies.png' /></div>
+			<div class='troops'>" . $row->donations() . "</div>
+			<div class='troops'>" . $row->donationsReceived() . "</div>
+			<div class='ratio' data-ratio='";
+		if ($row->donationsReceived() == 0) {
+			$ratio = 0; 
+		} else {
+			$ratio = $row->donations() / $row->donationsReceived();
+		}
+		if ($ratio < 0.5) { echo "bad"; } else { echo "good"; }
+		echo "'>" . number_format($ratio, 2, '.', ',') . "</div>
+		</div>";
 	}
-	
-	
-	echo "</td>
-	</tr>
-	</table>
-	</section>
-	";
+	echo "
+		</div>
+	</section>";
 	
 	// WAR STATS
 	echo "<section>
-	<table width='910px'>
-	<!-- War stats -->
-	<tr>
-		<td colspan='3'><img src='images/war.jpg'/></td>
-	</tr>
-	<tr>
-		<td>Last war record: $LastWar</td>
-		<td rowspan='5' id='GraphWar1'></td>
-		<td rowspan='5' id='GraphWar2'></td>
-	</tr>
-	<tr>
-		<td>Number of war recorded: $NbWars</td>
-	</tr>
-	<tr>
-		<td>Average Destruction / Attack: $AVGDest</td>
-	</tr>
-	<tr>
-		<td>Average Star / Attack: $AVGStar</td>
-	</tr>
-	<tr>
-		<td>Number of attack not played: $NBMissedAtk</td>
-	</tr>
-	<!-- Footer -->
+	<div class='War'>
+		<div class='banner'><img src='images/war.jpg'/></div>
+		<div class='WarInfo'>Date de la dernière guerre: $LastWar</div>
+		<div class='WarInfo'>Nb de guerres ces 30 derniers jours: $NbWars / " . count($LastWars) . "</div>
+		<div class='WarInfo'>Moyenne de destruction par attaque: " . number_format($AVGDest, 2) . "</div>
+		<div class='WarInfo'>Moyenne d'étoiles par attaque: " . number_format($AVGStar, 2) . "</div>
+		<div class='WarInfo'>Nb d'attaques non jouées: $NBMissedAtk</div>
+	</div>
+	</section>
+	<section>
+		<div class='HalfHighChartsGraph' id='GraphWar1'></div>
+	</section>
+	<section>
+	<div class='warHistory'>";
+
+	foreach ($PlayerWars as $PlayerWar) {
+		$WarResult = $WarManager->LookupthroughWars("result", $PlayerWar->warid(), $LastWars);
+		echo "
+	<a class='war' href='index.php?op=EndedClanWar&warid=" . $PlayerWar->warid() . "' data-item='$WarResult'>
+		<div class='warid'>" . $PlayerWar->warid() . "</div>
+		<div class='position'>" . $PlayerWar->MapRank() . "</div>
+		<div class='TH-Destruction'><img class='TH' src='images/profile/TownHall/TownHall_" . $PlayerWar->Player_TH() . ".png' /></div>
+		<div class='vertical-separator'></div>
+		<div class='EBA'>" . AtkResult($PlayerWar->EBA_Star(), $PlayerWar->EBA_Destruction()) . "</div>
+		<div class='EBA'> par le (" . $PlayerWar->EBA_AttackerRank() . ")</div>
+		<div class='vertical-separator'></div>
+		<div class='defense'>Nombre de fois attaqué : " . $PlayerWar->Attacked() . "</div>
+		<div class='vertical-separator'></div>
+		<div class='attacks'>attaques durant la guerre : </div>";
+		if ($PlayerWar->Attack_1_Rank() > 0) {
+			echo "
+		<div class='Attack'><div class='target'><img src='images/target.png' /><p>". $PlayerWar->Attack_1_Rank() ."</p></div>" . AtkResult($PlayerWar->Attack_1_Star(), $PlayerWar->Attack_1_Percentage()) . "</div>";
+		} else {
+			echo "
+		<div class='NotUsed'>Non jouée</div>";
+		}
+		if ($PlayerWar->Attack_2_Rank() > 0) {
+			echo "
+		<div class='Attack'><div class='target'><img src='images/target.png' /><p>". $PlayerWar->Attack_2_Rank() . "</p></div>" . AtkResult($PlayerWar->Attack_2_Star(), $PlayerWar->Attack_2_Percentage()) . "</div>";
+		} else {
+			echo "
+		<div class='NotUsed'>Non jouée</div>";
+		}
+		echo "
+	</a>";
+	}
 	
-</table>
-<script>
-var chart1 = new Highcharts.Chart({
-	title: {text: ''},
-	chart: {renderTo: 'GraphTrophy'},
-	xAxis: {type: 'datetime', tickInterval: 24 * 36e5},
-	yAxis: {title: {text: 'Trophies'}},
-	legend: {enabled: false},
-	series: [{name: 'Trophies', data: [", join($data1, ',') ,"]}]
-	});
-</script>";
+	echo "
+	</div>";
+
+	if ($NbWars> 0) {
+		echo "
+	<script>
+		var chart2 = new Highcharts.Chart({
+			title: {text: ''},
+			chart: {type: 'column', backgroundColor: '', renderTo: 'GraphWar1'},
+			xAxis: {title: {text: 'cible (par rapport à position)'}},
+			yAxis: {title: {text: 'Moyenne d\'étoiles'}, min: -1, max: 3},
+			legend: {enabled: false},
+			series: [{name: 'Stars', data: [", join($data2, ',') ,"]}]
+		});
+	</script>";
+	}
 }
 ?>
