@@ -13,7 +13,7 @@ echo "
 
 foreach($Wars as $War) {
 	echo "
-	<a class='WarItem' href='#' data-item='" . $War->result() . "'>
+	<a class='WarItem' href='index.php?op=EndedClanWar&warid=" . $War->id() . "' data-item='" . $War->result() . "'>
 		<div class='Team Home'>
 			<div class='Name'>Knights of Hell</div>
 			<div class='Score'>

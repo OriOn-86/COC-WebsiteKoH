@@ -22,7 +22,7 @@
 		echo 'Connection failed: ' . $e->getMessage();
 	}
 	// op list
-	$ops = ['clan', 'daily', 'logs' ,'playerprofile', 'weekly', 'CurrentClanWar', 'WarHistory'];
+	$ops = ['clan', 'daily', 'logs' ,'playerprofile', 'weekly', 'CurrentClanWar', 'WarHistory', 'EndedClanWar'];
 	// Menu and War Item list
 	$MenuItems = ['logs' ,'playerprofile', 'weekly'];
 	$WarItems = ['CurrentClanWar', 'WarHistory'];
