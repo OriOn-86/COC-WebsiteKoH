@@ -78,5 +78,64 @@ class DailyManager {
 		}
 		return $dailyItems;
 	}
-}
 
+	/**
+	 * get the last record's date from database
+	 * @return string
+	 */
+	public function getLastDailyRecordDate(){
+		$sql = "SELECT * FROM `coc_dailydata` ORDER BY `id` DESC LIMIT 1";
+		$data= $this->_db->query($sql)->fetch(PDO::FETCH_ASSOC);
+		$Daily = new Daily($data);
+		return $Daily->date();
+	}
+	
+	/**
+	 * 
+	 * @param string $daterecord date of interest
+	 * @return Daily[] array containing all members' dailty records for the date of interest
+	 */
+	public function getDailyFromDate($daterecord) {
+		$Dailies = [];
+		$sql = "SELECT * FROM `coc_dailydata` WHERE `date`='$daterecord' ORDER BY `clanRank` LIMIT 50";
+		$qry = $this->_db->query($sql);
+		while ($data = $qry->fetch(PDO::FETCH_ASSOC)) {
+			$Dailies[] = new Daily($data);
+		}
+		return $Dailies;
+	}
+	
+	/**
+	 * Returns either the clan rank of the player of interest at the date of interest
+	 * or False is the player was not in the clan at that date. 
+	 * @param string $daterecord date of interest
+	 * @param string $Player_Tag player tag of interest
+	 * @return mixed clanRank when existing, False if record not found
+	 */
+	public function getPlayerPosition($daterecord, $Player_Tag){
+		$sql = "SELECT `clanRank` FROM `coc_dailydata` WHERE `date`='$daterecord' AND `player_tag`='$Player_Tag';";
+		$data = $this->_db->query($sql)->fetch(PDO::FETCH_ASSOC);
+		if ($data) {
+			return $data["clanRank"];
+		} else {
+			return False;
+		}
+	}
+	
+	/**
+	 * Returns the top 3 donators of the date of interest
+	 * @param string $daterecord date of interest
+	 * @return Daily[]
+	 */
+	public function getTopDonators($daterecord) { 
+		$TopDonators = [];
+		$sql = "SELECT * FROM `coc_dailydata` WHERE `date`='$daterecord' ORDER BY `donations` DESC LIMIT 3";
+		$qry = $this->_db->query($sql);
+		while ($data = $qry->fetch(PDO::FETCH_ASSOC)) {
+			$TopDonators[] = new Daily($data);
+		}
+		return $TopDonators;
+	}
+	
+	
+}
