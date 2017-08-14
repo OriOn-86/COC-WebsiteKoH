@@ -80,7 +80,7 @@ echo "
 	</div>";
 $WarSize = $currentWar->team_size();
 for ($x = 1; $x <= $WarSize; $x++) {
-	$Member = $AManager->MemberAtPosition($Fighters, $x, $WarSize);
+	$Member = $AManager->MemberAtPosition($Fighters, $x);
 	echo "
 	<div class='CWTRow'>
 	<div class='member'>
@@ -112,7 +112,7 @@ for ($x = 1; $x <= $WarSize; $x++) {
 	</div>
 	</div>";
 	
-	$Opponent = $AManager->OpponentAtPosition($Fighters, $x, $WarSize);
+	$Opponent = $AManager->OpponentAtPosition($Fighters, $x);
 	echo "
 	<div class='opponent'>
 		<div class='position'>$x</div>
