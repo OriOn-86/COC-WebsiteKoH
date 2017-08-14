@@ -1,10 +1,10 @@
 <?php
 // configuraiton files
-require ("/var/www/html/include/conf.db.php");
-require ("/var/www/html/include/conf.api.php");
+require ("../include/conf.db.php");
+require ("../include/conf.api.php");
 // object files
-require ("/var/www/html/include/class_Member.php");
-require ("/var/www/html/include/class_War.php");
+require ("../include/class_Member.php");
+require ("../include/class_War.php");
 
 // db connect
 try {
@@ -31,6 +31,8 @@ function dailyRecord () {
 		$db->exec($sql);
 	} else {
 		$ClanData = (json_decode($res));
+		// TODO create dailymanager function for the following >> END To DO
+		// $DailyManager->getDailyFromJSON($daterecord, $json_array);
 		$clanLevel = $ClanData->clanLevel;
 		$clanPoints = $ClanData->clanPoints;
 		$clanMembers = $ClanData->members;
@@ -69,6 +71,7 @@ function dailyRecord () {
 		// log entry
 		$sql = $sql . 'INSERT INTO `coc_logs` (`date`, `log`) VALUES ("' . $daterecord . '", "Daily record from API.");';
 		$db->exec($sql);
+		// << END To DO 
 	}
 	sleep(1); // sleep a sec for API query cooldown
 	return $id; // active members' id
@@ -155,9 +158,8 @@ function newWarCheck() {
 	} else {
 		$json_array = (json_decode($res));
 		$APILastWar = $WarManager->getWarFromJSON($json_array);
-		$DBLastWar = $WarManager->getLastWarFromDb();
-		if ($APILastWar->datewar() != $DBLastWar->datewar()) {
-			$WarManager->addWarToDb($APILastWar);
+		if ($WarManager->Exists($APILastWar->datewar())>0){
+			$WarManager->addWarToDb($APILastWar, "warlog");
 		}
 	}
 	sleep(1); // cooldown

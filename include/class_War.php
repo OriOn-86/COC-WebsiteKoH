@@ -78,32 +78,65 @@ class WarManager {
 	// construct
 	public function __construct ($db) {$this->_db = $db;}
 
-	public function addWarToDb(War $War) {
-		$result = $War->result();
-		$exp_earned = $War->exp_earned();
-		$opponent_attacks = $War->opponent_attacks();
-
-		$qry = $this->_db->prepare("INSERT INTO `coc_wars` (`datewar`, `result`, `state`, `team_size`, `exp_earned`, `koh_badgeUrl`, `koh_clanLevel`, `koh_stars`, `koh_attacks`, `koh_destructionPercentage`, `opponent_tag`, `opponent_name`, `opponent_badgeUrl`, `opponent_clanLevel`, `opponent_stars`, `opponent_attacks`, `opponent_destructionPercentage`) VALUES (:datewar, :result, :state, :team_size, :exp_earned, :koh_badgeUrl,  :koh_clanLevel, :koh_stars, :koh_attacks, :koh_destructionPercentage, :opponent_tag, :opponent_name, :opponent_badgeUrl, :opponent_clanLevel, :opponent_stars, :opponent_attacks, :opponent_destructionPercentage);");
-		$qry->bindValue(':datewar', $War->datewar());
-		$qry->bindValue(':result', isset($result) ? $result : "");
-		$qry->bindValue(':state', $War->state());
-		$qry->bindValue(':team_size', $War->team_size());
-		$qry->bindValue(':exp_earned', isset($exp_earned) ? $exp_earned : "");
-		$qry->bindValue(':koh_badgeUrl', $War->koh_badgeUrl());
-		$qry->bindValue(':koh_clanLevel', $War->koh_clanLevel());
-		$qry->bindValue(':koh_stars', $War->koh_stars());
-		$qry->bindValue(':koh_attacks', $War->koh_attacks());
-		$qry->bindValue(':koh_destructionPercentage', $War->koh_destructionPercentage());
-		$qry->bindValue(':opponent_tag', $War->opponent_tag());
-		$qry->bindValue(':opponent_name', $War->opponent_name());
-		$qry->bindValue(':opponent_badgeUrl', $War->opponent_badgeUrl());
-		$qry->bindValue(':opponent_clanLevel', $War->opponent_clanLevel());
-		$qry->bindValue(':opponent_stars', $War->opponent_stars());
-		$qry->bindValue(':opponent_attacks', isset($opponent_attacks) ? $opponent_attacks : 0);
-		$qry->bindValue(':opponent_destructionPercentage', $War->opponent_destructionPercentage());
-		$qry->execute();
+	/**
+	 * Insert a war into the coc_wars table
+	 * @param War $War
+	 * @param string $callingProc optional ("currentwar" if ommited)
+	 * @return boolean True on success / False on failure
+	 */
+	public function addWarToDb(War $War, $callingProc = "currentwar") {
+		switch ($callingProc) {
+			case "currentwar":
+				$qry = $this->_db->prepare("INSERT INTO `coc_wars` (`datewar`, `state`, `team_size`, ".
+					"`koh_badgeUrl`, `koh_clanLevel`, `koh_stars`, `koh_attacks`, `koh_destructionPercentage`, " .
+					"`opponent_tag`, `opponent_name`, `opponent_badgeUrl`, `opponent_clanLevel`, `opponent_attacks`, " .
+					"`opponent_stars`, `opponent_destructionPercentage`) VALUES (:datewar, :state, :team_size, " .
+					":koh_badgeUrl,  :koh_clanLevel, :koh_stars, :koh_attacks, :koh_destructionPercentage, " .
+					":opponent_tag, :opponent_name, :opponent_badgeUrl, :opponent_clanLevel, :opponent_stars, " .
+					":opponent_attacks, :opponent_destructionPercentage);");
+				$qry->bindValue(':datewar', $War->datewar());
+				$qry->bindValue(':state', $War->state());
+				$qry->bindValue(':team_size', $War->team_size());
+				$qry->bindValue(':koh_badgeUrl', $War->koh_badgeUrl());
+				$qry->bindValue(':koh_clanLevel', $War->koh_clanLevel());
+				$qry->bindValue(':koh_stars', $War->koh_stars());
+				$qry->bindValue(':koh_attacks', $War->koh_attacks());
+				$qry->bindValue(':koh_destructionPercentage', $War->koh_destructionPercentage());
+				$qry->bindValue(':opponent_tag', $War->opponent_tag());
+				$qry->bindValue(':opponent_name', $War->opponent_name());
+				$qry->bindValue(':opponent_badgeUrl', $War->opponent_badgeUrl());
+				$qry->bindValue(':opponent_clanLevel', $War->opponent_clanLevel());
+				$qry->bindValue(':opponent_stars', $War->opponent_stars());
+				$qry->bindValue(':opponent_attacks', $War->opponent_attacks());
+				$qry->bindValue(':opponent_destructionPercentage', $War->opponent_destructionPercentage());
+				break;
+			
+			case "warlog":
+				$qry = $this->_db->prepare("UPDATE `coc_wars` SET `result` = :result, `exp_earned` = :exp_earned WHERE `id` = :id");
+				$qry->bindValue(':result', $War->result());
+				$qry->bindValue(':exp_earned', $War->exp_earned());
+				$qry->bindValue(':id', $War->id());
+				break;
+		}
+		return $qry->execute();
 	}
 
+	/**
+	 * Checks if a War Exists in the database 
+	 * @param string $datewar End date of war
+	 * @return mixed id of war if exists / False if not
+	 */
+	public function Exists($datewar) {
+		$sql = "SELECT `id` FROM `coc_wars` WHERE `datewar`= '$datewar'";
+		$qry = $this->_db->query($sql);
+		return $qry->fetchColumn();
+	}
+	
+	/**
+	 * Update database record on specific war
+	 * @param War $War a War object containing data to update the database with 
+	 * @return boolean success update
+	 */
 	public function UpdateDb(War $War) {
 	// update war with defined information
 		$sql = "";
@@ -116,10 +149,16 @@ class WarManager {
 		if (strlen($sql) > 0) {
 			$sql = substr($sql, 0, -2); // removes the last ", "
 			$sql = "UPDATE `coc_wars` SET " . $sql . " WHERE `id`=" . $War->id() . ";";
-			$this->_db->exec($sql);
+			return $this->_db->exec($sql);
+		} else {
+			return False;
 		}
 	}
 
+	/**
+	 * Returns the latest war from database
+	 * @return War
+	 */
 	public function getLastWarFromDb() {
 		$sql = "SELECT * FROM `coc_wars` ORDER BY `datewar` DESC LIMIT 1;";
 		$data = $this->_db->query($sql)->fetch(PDO::FETCH_ASSOC);
@@ -130,12 +169,23 @@ class WarManager {
 		}
 	}
 
+	/**
+	 * getWarFromID returns a war from its ID 
+	 * @param integer $warid
+	 * @return War
+	 */
 	public function getWarFromID($warid) {
 		$sql = "SELECT * FROM `coc_wars` WHERE `id` = $warid";
 		$data = $this->_db->query($sql)->fetch(PDO::FETCH_ASSOC);
 		return new War($data);
 	}
 
+	/**
+	 * Using the WAR API (/clans/{clanTag}/warlog),
+	 * transforms the json responce into a war object
+	 * @param string $json_array
+	 * @return War
+	 */
 	public function getWarFromJSON($json_array) {
 		// format time
 		$endTime = $json_array->items[0]->endTime;
@@ -159,10 +209,16 @@ class WarManager {
 		return $LastWar;
 	}
 
+	/**
+	 * generic getter for multiple purposes
+	 * @param array $specifics array defining the SQL query to filter, order, limit the coc_wars table from it's columns and their values
+	 * @return War[] array of War satisfying specifics
+	 */
 	public function getWarsBySpecific(array $specifics) {
 		$allowedItems = ["id", "datewar", "result", "team_size", "exp_earned", "koh_clanLevel", "koh_stars", "koh_attacks", "koh_destructionPercentage", "opponent_tag", "opponent_name", "opponent_clanLevel", "opponent_stars", "opponent_attacks", "opponent_destructionPercentage"];
 		$Wars = [];
 		$sql = "SELECT * FROM `coc_wars` ";
+		//$sql = "SELECT * FROM `coc_currentwar` ";
 		if (isset($specifics['filter'])) {
 			$filter = $specifics['filter'];
 			$pos = strpos($filter, " ");
@@ -195,5 +251,21 @@ class WarManager {
 		return $Wars;
 	}
 
+	/**
+	 * Lookup through Wars instead of requerying the database.
+	 * @param string $Element getter from the War Class
+	 * @param integer $warid Id of the war of interest
+	 * @param array $Wars Array of war supposed to contain the war of interest
+	 * @return mixed string or integer depending on the getter requested
+	 */
+	public function LookupthroughWars($Element, $warid, array $Wars){
+		foreach ($Wars as $War) {
+			if ($War->id() == $warid) {
+				if (method_exists($War, $Element)){
+					return $War->$Element();
+				}
+			}
+		}
+	}
 }
 ?>

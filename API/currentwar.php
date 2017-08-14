@@ -1,8 +1,8 @@
 <?php 
-require ("/var/www/html/include/class_CurrentWar.php");
-require ("/var/www/html/include/class_Attacks.php");
-require ("/var/www/html/include/conf.db.php");
-require ("/var/www/html/include/conf.api.php");
+require ("../include/class_War.php");
+require ("../include/class_Attacks.php");
+require ("../include/conf.db.php");
+require ("../include/conf.api.php");
 
 // db connect
 try {
@@ -13,7 +13,7 @@ try {
 
 // init managers
 $AttackManager = new AttackManager($db);
-$CurrentWarManager = new CurrentWarManager($db);
+$CurrentWarManager = new WarManager($db);
 
 // php functions
 function shortBadgeUrl($badgeUrl) {
@@ -50,7 +50,7 @@ if (curl_errno($ch)) {
 	// check war status
 	$warState = $CurrentWar->state;
 	// split currentwar[] into coc_wars[] and coc_wars_current[]
-	$war = new CurrentWar([]);
+	$war = new War([]);
 	$Attacks = [];
 	// $war
 	$war->setid($WarID);

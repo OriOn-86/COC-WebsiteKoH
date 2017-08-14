@@ -19,7 +19,7 @@ if(isset($_GET['logout'])){
 }
 
 // import classes
-require("include/class_CurrentWar.php");
+require("include/class_War.php");
 require("include/class_Attacks.php");
 
 // PHP functions
@@ -85,7 +85,7 @@ echo "
 
 
 // create objects
-$CWManager = new CurrentWarManager($db);
+$CWManager = new WarManager($db);
 $AManager = new AttackManager($db);
 
 $currentWar = $CWManager->getLastWarFromDb();
@@ -131,7 +131,7 @@ echo "
 	</div>";
 $WarSize = $currentWar->team_size();
 for ($x = 1; $x <= $WarSize; $x++) {
-	$Member = $AManager->MemberAtPosition($Fighters, $x, $WarSize);
+	$Member = $AManager->MemberAtPosition($Fighters, $x);
 	echo "
 	<div class='CWTRow'>
 		<div class='member'>
@@ -165,7 +165,7 @@ for ($x = 1; $x <= $WarSize; $x++) {
 	echo "</div>
 		</div>";
 	
-	$Opponent = $AManager->OpponentAtPosition($Fighters, $x, $WarSize);
+	$Opponent = $AManager->OpponentAtPosition($Fighters, $x);
 	echo "
 		<div class='opponent'>
 			<div class='position'>$x</div>

@@ -82,7 +82,7 @@ class AttackManager {
 
 	// get player map position for a war
 	public function getMapPosition($warid, $tag) {
-		$qry = $this->_db->prepare("SELECT `MapRank` FROM `coc_currentwar_detail` WHERE `warid`=:warid AND `Player_ID`=:Player_ID");
+		$qry = $this->_db->prepare("SELECT `MapRank` FROM `coc_wars_detail` WHERE `warid`=:warid AND `Player_ID`=:Player_ID");
 		$qry->bindValue(':warid', $warid);
 		$qry->bindValue(':Player_ID', $tag);
 		$qry->execute();
@@ -93,7 +93,7 @@ class AttackManager {
 	public function AddWarAttacks($warAttacks) {
 		$SQL = "";
 		foreach ($warAttacks as $Attack) {
-			$SQL .= "INSERT INTO `coc_currentwar_detail` (`warid`, `MapRank`, `Player_ID`, `Player_TH`, "
+			$SQL .= "INSERT INTO `coc_wars_detail` (`warid`, `MapRank`, `Player_ID`, `Player_TH`, "
 				. "`Attack_1_Rank`, `Attack_1_Percentage`, `Attack_1_Star`, `Attack_1_Order`, "
 				. "`Attack_2_Rank`, `Attack_2_Percentage`, `Attack_2_Star`, `Attack_2_Order`, "
 				. " `Effective_Star`, `Attacked`, `EBA_AttackerRank`, `EBA_Destruction`, `EBA_Star`) VALUES ("
@@ -122,16 +122,16 @@ class AttackManager {
 	// calculate Effective_Star
 	public function CalculateEffectiveStar($warid) {
 		// list positions of ennemy players.
-		$sql = "SELECT `MapRank` FROM `coc_currentwar_detail` WHERE `MapRank` < 0 Order by `MapRank` ASC";
+		$sql = "SELECT `MapRank` FROM `coc_wars_detail` WHERE `MapRank` < 0 Order by `MapRank` ASC";
 		$positions = $this->_db->query($sql)->fetchall(PDO::FETCH_COLUMN, 0);
 		foreach ($positions as $player_position) {
 			// list attacks on the player by order ascending
 			$sql = "(SELECT `Player_ID`, `Attack_1_Order` as `Order`, `Attack_1_Star` as `Star` "
-				. "FROM `coc_currentwar_detail` "
+				. "FROM `coc_wars_detail` "
 				. "WHERE (`warid`=$warid AND `Attack_1_Rank` = $player_position)) "
 				. "UNION "
 				. "(SELECT `Player_ID`, `Attack_2_Order` as `Order`, `Attack_2_Star` as `Star` "
-				. "FROM `coc_currentwar_detail` "
+				. "FROM `coc_wars_detail` "
 				. "WHERE (`warid`=$warid AND `Attack_2_Rank` = $player_position)) "
 				. "ORDER BY `Order` ASC";
 			$qry = $this->_db->query($sql);
@@ -140,7 +140,7 @@ class AttackManager {
 			while ($data = $qry->fetch(PDO::FETCH_ASSOC)) {
 				$stars = $data['Star'];
 				if ($stars > $bestStars) {
-					$sql = "UPDATE `coc_currentwar_detail` SET `Effective_Star`=" . $stars - $bestStars . " WHERE `Player_ID`='" . $data['Player_ID'] . "';";
+					$sql = "UPDATE `coc_wars_detail` SET `Effective_Star`=" . $stars - $bestStars . " WHERE `warid`=$warid AND `Player_ID`='" . $data['Player_ID'] . "';";
 					$this->_db->exec($sql);
 				}
 				// update best stars
@@ -153,7 +153,7 @@ class AttackManager {
 	public function UpdateWarAttacks($warAttacks) {
 		$SQL = "";
 		foreach ($warAttacks as $Attack) {
-			$SQL .= "UPDATE `coc_currentwar_detail` SET  `Attacked`=" . $Attack->Attacked()
+			$SQL .= "UPDATE `coc_wars_detail` SET  `Attacked`=" . $Attack->Attacked()
 			. ", `Attack_1_Rank`=" . Nz($Attack->Attack_1_Rank(), 0)
 			. ", `Attack_1_Percentage`=" . Nz($Attack->Attack_1_Percentage(), 0)
 			. ", `Attack_1_Star`=" . Nz($Attack->Attack_1_Star(), 0)
@@ -172,10 +172,14 @@ class AttackManager {
 		$qry->execute();
 	}
 
-	// read attacks from db
+	/**
+	 * read attacks from db
+	 * @param integer $warid
+	 * @return Attacks[]
+	 */
 	public function getAttacks($warid) {
 		$CurrentWarAttacks = [];
-		$sql = "SELECT * FROM `coc_currentwar_detail` WHERE `warid`=$warid ORDER BY `MapRank` ASC;";
+		$sql = "SELECT * FROM `coc_wars_detail` WHERE `warid`=$warid ORDER BY `MapRank` ASC;";
 		$qry = $this->_db->query($sql);
 		while ($data = $qry->fetch(PDO::FETCH_ASSOC)) {
 			$CurrentWarAttacks[] = new Attacks($data);
@@ -183,11 +187,34 @@ class AttackManager {
 		return $CurrentWarAttacks;
 	}
 
-	public function getPlayerAttacks($player_tag) {
+	/**
+	 * Reads database looking for the last war a player participated in
+	 * @param string $player_ID Player ID (including #)
+	 * @return integer war ID or -1 if not found
+	 */
+	public function getLastWarOfPlayer($player_ID){
+		if (!is_string($player_ID)){
+			return -1;
+		}
+		$sql = "SELECT `warid` FROM `coc_wars_detail` WHERE `Player_ID` = '$player_ID' ORDER BY `warid` DESC LIMIT 1";
+		$qry = $this->_db->query($sql);
+		if ($res = $qry->fetch(PDO::FETCH_ASSOC)) {
+			return $res['warid'];
+		} else {
+			return -1;
+		}
+	}
+	
+	/**
+	 * function in writing, not working
+	 * @param string $player_ID Player ID (including #)
+	 * @return NULL
+	 */
+	public function getPlayerAttacks($player_ID) {
 	// First stage analysis of last attacks 
 		$sql = "SELECT `MapRank`, `Attack_1_Rank`, `Attack_1_Percentage`, `Attack_2_Rank`, `Attack_2_Percentage` "
-			. "FROM `coc_currentwar_detail` "
-			. "WHERE `Player_ID`='$player_tag' order by `warid` DESC LIMIT 5;";
+			. "FROM `coc_wars_detail` "
+			. "WHERE `Player_ID`='$player_ID' order by `warid` DESC LIMIT 5;";
 		$qry = $this->_db->query($sql);
 		$AttackList = [];
 		$ScoreList = [];
@@ -213,11 +240,31 @@ class AttackManager {
 		//
 		//}
 	}
+	
+	/**
+	 * collects attacks of a certain player for a certain war
+	 * @param string $Player_ID Player ID (including #)
+	 * @param integer $warid war ID
+	 * @return Attacks
+	 */
+	public function getPlayerAttacksDuringWar($Player_ID, $warid) {
+		$sql = "SELECT * FROM `coc_wars_detail` WHERE `Player_ID` = '$Player_ID' AND `warid` = $warid";
+		$qry = $this->_db->query($sql);
+		if ($res = $qry->fetch(PDO::FETCH_ASSOC)) {
+			return new Attacks($res);
+		}
+	}
 
-	// select player's info from his map position
-	public function MemberAtPosition($Attacks, $MapPosition, $warSize) {
+	/**
+	 * Select player's info from his map position
+	 * @param Attacks $Attacks
+	 * @param integer $MapPosition
+	 * @return Attacks
+	 */
+	public function MemberAtPosition($Attacks, $MapPosition) {
 		// preliminary checks
-		if ((count($Attacks) == $warSize*2) && ($MapPosition <= $warSize)) {
+		$warSize = (count($Attacks) / 2);
+		if ($MapPosition <= $warSize) {
 			// navigate through array
 			$Attack = $Attacks[$warSize + $MapPosition - 1];
 			// lookup Name
@@ -230,9 +277,17 @@ class AttackManager {
 		}
 		return $Attack;
 	}
-	public function OpponentAtPosition($Attacks, $MapPosition, $warSize) {
+	
+	/**
+	 * Select Opponent's info from his map position
+	 * @param Attacks $Attacks
+	 * @param integer $MapPosition
+	 * @return Attacks
+	 */
+	public function OpponentAtPosition($Attacks, $MapPosition) {
 		// preliminary checks
-		if ((count($Attacks) == $warSize*2) && ($MapPosition <= $warSize)) {
+		$warSize = (count($Attacks) / 2);
+		if ($MapPosition <= $warSize) {
 			// navigate through array
 			$Attack = $Attacks[$warSize - $MapPosition];
 		} else {
