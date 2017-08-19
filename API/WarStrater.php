@@ -6,9 +6,9 @@
  * calculate optimal dispatch
  * Feed strat table
  */ 
-require '../include/conf.db.php';
-require '../include/class_War.php';
-require '../include/class_Attacks.php';
+require __DIR__ . '/../include/conf.db.php';
+require __DIR__ . '/../include/class_War.php';
+require __DIR__ . '/../include/class_Attacks.php';
 
 class Knight {
 	public $Player_ID;

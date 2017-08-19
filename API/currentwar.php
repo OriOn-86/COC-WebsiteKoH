@@ -1,8 +1,8 @@
 <?php 
-require ("../include/class_War.php");
-require ("../include/class_Attacks.php");
-require ("../include/conf.db.php");
-require ("../include/conf.api.php");
+require (__DIR__ . "/../include/class_War.php");
+require (__DIR__ . "/../include/class_Attacks.php");
+require (__DIR__ . "/../include/conf.db.php");
+require (__DIR__ . "/../include/conf.api.php");
 
 // db connect
 try {

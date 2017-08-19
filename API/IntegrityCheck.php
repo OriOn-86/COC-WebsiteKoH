@@ -5,10 +5,10 @@
  */
 
 // configuraiton and classes
-require ("../include/conf.db.php");
-require ("../include/conf.mail.php");
-require ("../include/class.phpmailer.php");
-require ("../include/class.smtp.php");
+require (__DIR__ . "/../include/conf.db.php");
+require (__DIR__ . "/../include/conf.mail.php");
+require (__DIR__ . "/../include/class.phpmailer.php");
+require (__DIR__ . "/../include/class.smtp.php");
 // db connect
 try {
 	$db = new PDO($dsn, $user, $password);

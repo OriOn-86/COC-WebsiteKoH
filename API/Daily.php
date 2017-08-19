@@ -1,10 +1,10 @@
 <?php
 // configuraiton files
-require ("../include/conf.db.php");
-require ("../include/conf.api.php");
+require (__DIR__ . "/../include/conf.db.php");
+require (__DIR__ . "/../include/conf.api.php");
 // object files
-require ("../include/class_Member.php");
-require ("../include/class_War.php");
+require (__DIR__ . "/../include/class_Member.php");
+require (__DIR__ . "/../include/class_War.php");
 
 // db connect
 try {
