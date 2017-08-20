@@ -148,6 +148,8 @@ if (curl_errno($ch)) {
 		// store new values
 		$CurrentWarManager->AddWarToDb($war);
 		$AttackManager->AddWarAttacks($Attacks);
+		// launch botstrater
+		include_once __DIR__ . 'WarStrater.php';
 	} elseif (($warState == "inWar") OR ($warState == "warEnded")) {
 		// update war and attacks with newer information
 		$CurrentWarManager->UpdateWar($war);
