@@ -22,10 +22,10 @@
 		echo 'Connection failed: ' . $e->getMessage();
 	}
 	// op list
-	$ops = ['clan', 'daily', 'logs' ,'playerprofile', 'weekly', 'CurrentClanWar', 'WarHistory', 'EndedClanWar'];
+	$ops = ['clan', 'daily', 'logs' ,'playerprofile', 'weekly', 'CurrentClanWar', 'warHistory', 'EndedClanWar'];
 	// Menu and War Item list
 	$MenuItems = ['logs' ,'playerprofile', 'weekly'];
-	$WarItems = ['CurrentClanWar', 'WarHistory'];
+	$WarItems = ['CurrentClanWar', 'warHistory'];
 	// scan modules
 	$List = scandir("modules");
 ?>
@@ -49,7 +49,7 @@
 		}
 	} */
 ?>
-					<a href="index.php?op=WarHistory">Historique</a>
+					<a href="index.php?op=warHistory">Historique</a>
 					<a href="index.php?op=CurrentClanWar">Strat GDC</a>
 				</div>
 				</div></li>
