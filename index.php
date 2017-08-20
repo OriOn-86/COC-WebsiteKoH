@@ -126,7 +126,7 @@
 						echo "
 				<div class='breaker'></div>
 				<h2>" . $row['opponent_name'] . "<span> le " . date("d-m-Y", strtotime($row['datewar'])) . "</span></h2>
-				<a href='?op=daily&day=" . $row['datewar'] . "'>Voir le rapport</a>";
+				<a href='?op=EndedClanWar&warid=" . $row['id'] . "'>Voir le rapport</a>";
 					}
 				?>
 			</div>
