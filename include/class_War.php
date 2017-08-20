@@ -137,22 +137,20 @@ class WarManager {
 	 * @param War $War a War object containing data to update the database with 
 	 * @return boolean success update
 	 */
-	public function UpdateDb(War $War) {
+	public function UpdateWar(War $War) {
 	// update war with defined information
-		$sql = "";
-		$WarArray = get_object_vars($War);
-		foreach ($WarArray as $key => $value) {
-			if (isset($value)) {
-				is_numeric($value) ? $sql .= "`$key` = $value, " : $sql .= "`$key` = '$value', ";
-			}
-		}
-		if (strlen($sql) > 0) {
-			$sql = substr($sql, 0, -2); // removes the last ", "
-			$sql = "UPDATE `coc_wars` SET " . $sql . " WHERE `id`=" . $War->id() . ";";
-			return $this->_db->exec($sql);
-		} else {
-			return False;
-		}
+		$qry = $this->_db->prepare("UPDATE `coc_wars` SET `state`=:state, `koh_stars`=:koh_stars, `koh_attacks`=:koh_attacks, `koh_destructionPercentage`=:koh_destructionPercentage, `opponent_stars`=:opponent_stars, `opponent_attacks`=:opponent_attacks, `opponent_destructionPercentage`=:opponent_destructionPercentage WHERE `id`=:id");
+		$qry->bindValue(':state', $War->state());
+		$qry->bindValue(':koh_stars', $War->koh_stars());
+		$qry->bindValue(':koh_attacks', $War->koh_attacks());
+		$qry->bindValue(':koh_destructionPercentage', $War->koh_destructionPercentage());
+		$qry->bindValue(':opponent_stars', $War->opponent_stars());
+		$qry->bindValue(':opponent_attacks', $War->opponent_attacks());
+		$qry->bindValue(':opponent_destructionPercentage', $War->opponent_destructionPercentage());
+		$qry->bindValue(':id', $War->id());
+		
+		return $qry->execute();
+
 	}
 
 	/**
