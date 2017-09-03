@@ -112,10 +112,10 @@ class WarManager {
 				break;
 			
 			case "warlog":
-				$qry = $this->_db->prepare("UPDATE `coc_wars` SET `result` = :result, `exp_earned` = :exp_earned WHERE `id` = :id");
+				$qry = $this->_db->prepare("UPDATE `coc_wars` SET `result` = :result, `exp_earned` = :exp_earned WHERE `datewar` = :datewar");
 				$qry->bindValue(':result', $War->result());
 				$qry->bindValue(':exp_earned', $War->exp_earned());
-				$qry->bindValue(':id', $War->id());
+				$qry->bindValue(':datewar', $War->datewar());
 				break;
 		}
 		return $qry->execute();

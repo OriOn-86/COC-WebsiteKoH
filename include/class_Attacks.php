@@ -119,7 +119,7 @@ class AttackManager {
 		$qry->execute();
 	}
 
-	// calculate Effective_Star
+	// calculate Effective_Star //TODO fix this function
 	public function CalculateEffectiveStar($warid) {
 		// list positions of ennemy players.
 		$sql = "SELECT `MapRank` FROM `coc_wars_detail` WHERE `MapRank` < 0 Order by `MapRank` ASC";
