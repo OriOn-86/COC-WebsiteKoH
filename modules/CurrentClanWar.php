@@ -96,9 +96,9 @@ echo "
 <div id='CurrentWarHeader'>
 	<div class='CWHrow'>
 		<div class='CWHClanName'><p>Knights of Hell</p></div>
-		<div class='ClanBadge'><img src='https://api-assets.clashofclans.com/badges/200/" . $currentWar->koh_badgeUrl() . "'/><p>" . $currentWar->koh_clanLevel() . "</p></div>
+		<div class='ClanBadge'><img src='https://api-assets.clashofclans.com/badges/200/" . $currentWar->koh_badgeUrl() . "'/></div>
 		<div id='versus'><p>VS</p></div>
-		<div class='ClanBadge'><img src='https://api-assets.clashofclans.com/badges/200/" . $currentWar->opponent_badgeUrl() . "'/><p> " . $currentWar->opponent_clanLevel() . "</p></div>
+		<div class='ClanBadge'><img src='https://api-assets.clashofclans.com/badges/200/" . $currentWar->opponent_badgeUrl() . "'/></div>
 		<div class='CWHClanName'><p>" . $currentWar->opponent_name() . "</p></div>
 	</div>
 	

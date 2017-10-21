@@ -23,9 +23,15 @@ foreach($Wars as $War) {
 			</div>
 		</div>
 		<div class='badges'>
-			<div class='ClanBadge'><img src='https://api-assets.clashofclans.com/badges/200/" . $War->koh_badgeUrl() . "'/><p>" . $War->koh_clanLevel() . "</p></div>
+			<div class='ClanBadge'><img src='https://api-assets.clashofclans.com/badges/200/" . $War->koh_badgeUrl() . "'/>";
+			if ($War->id() <= 405)	
+				echo "<p>" . $War->koh_clanLevel() . "</p>";
+			echo "</div>
 			<div class='versus'><p>" . $War->team_size() . " contre " . $War->team_size() . "</p></div>
-			<div class='ClanBadge'><img src='https://api-assets.clashofclans.com/badges/200/" . $War->opponent_badgeUrl() . "'/><p>" . $War->opponent_clanLevel() . "</p></div>
+			<div class='ClanBadge'><img src='https://api-assets.clashofclans.com/badges/200/" . $War->opponent_badgeUrl() . "'/>";
+			if ($War->id() <= 405)
+				echo "<p>" . $War->opponent_clanLevel() . "</p>";
+			echo "</div>
 		</div>
 		<div class='Team Visitor'>
 			<div class='Name'>" . $War->opponent_name() . "</div>
